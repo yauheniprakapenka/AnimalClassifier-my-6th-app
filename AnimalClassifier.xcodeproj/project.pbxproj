@@ -13,6 +13,7 @@
 		3ECC8A4C237F1EDE007C2F6A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 3ECC8A4B237F1EDE007C2F6A /* Assets.xcassets */; };
 		3ECC8A4F237F1EDE007C2F6A /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECC8A4D237F1EDE007C2F6A /* LaunchScreen.storyboard */; };
 		3ECC8A57237F20E8007C2F6A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 3ECC8A56237F20E8007C2F6A /* Main.storyboard */; };
+		3ECC8A5B237FDB13007C2F6A /* PhotoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A5A237FDB13007C2F6A /* PhotoCollectionViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -24,6 +25,7 @@
 		3ECC8A4E237F1EDE007C2F6A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		3ECC8A50237F1EDE007C2F6A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		3ECC8A56237F20E8007C2F6A /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		3ECC8A5A237FDB13007C2F6A /* PhotoCollectionViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoCollectionViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -79,6 +81,7 @@
 			isa = PBXGroup;
 			children = (
 				3ECC8A46237F1EDC007C2F6A /* ViewController.swift */,
+				3ECC8A5A237FDB13007C2F6A /* PhotoCollectionViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -157,6 +160,7 @@
 				3ECC8A47237F1EDC007C2F6A /* ViewController.swift in Sources */,
 				3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */,
 				3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */,
+				3ECC8A5B237FDB13007C2F6A /* PhotoCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

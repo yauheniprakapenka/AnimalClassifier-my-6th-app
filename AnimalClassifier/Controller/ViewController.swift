@@ -61,6 +61,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var unsplashButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitle("Загрузить из Unsplash", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.addTarget(self, action: #selector(unsplashButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -72,6 +83,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(checkButton)
+        view.addSubview(unsplashButton)
         
         makeConstraints()
     }
@@ -155,6 +167,13 @@ private extension ViewController {
         imagePicker.delegate = self
         present(imagePicker, animated: true, completion: nil)
     }
+    
+    @objc
+    func unsplashButtonTapped() {
+        let vc = PhotoCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
+        let navigationVC = UINavigationController(rootViewController: vc)
+        present(navigationVC, animated: true, completion: nil)
+    }
 }
 
 // MARK: - Layout
@@ -178,7 +197,11 @@ private extension ViewController {
             
             checkButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: 80),
             checkButton.widthAnchor.constraint(equalToConstant: 180),
-            checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            unsplashButton.topAnchor.constraint(equalTo: checkButton.bottomAnchor, constant: 20),
+            unsplashButton.widthAnchor.constraint(equalToConstant: 180),
+            unsplashButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
