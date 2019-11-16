@@ -10,6 +10,11 @@ import UIKit
 
 class PhotoCollectionViewController: UICollectionViewController {
     
+    // MARK: - Input
+    
+    let networkDataFetcher = NetworkDataFetcher()
+    private var timer: Timer?
+    
     // MARK: - Subview
     
     private lazy var addBarButtonItem: UIBarButtonItem = {
@@ -85,6 +90,13 @@ class PhotoCollectionViewController: UICollectionViewController {
 
 extension PhotoCollectionViewController: UISearchBarDelegate {
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
-        print(searchText)
+        // print(searchText)
+        timer = Timer.scheduledTimer(withTimeInterval: 0.5, repeats: false, block: { (_) in
+            self.networkDataFetcher.fetchImage(searchTerm: searchText) { (searchResultModel) in
+                searchResultModel?.results.map({ (photo) in
+                    print(photo.urls["small"])
+                })
+            }
+        })
     }
 }
