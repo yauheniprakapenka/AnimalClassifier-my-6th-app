@@ -7,8 +7,16 @@
 //
 
 import UIKit
+import Vision
 
-class ViewController: UIViewController {
+class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+    
+    // MARK: - Input
+    
+    // MARK: - Properties
+    
+    private var animalRecognitionRequest = VNRecognizeAnimalsRequest(completionHandler: nil)
+    private let animalRecognitionWorkQueue = DispatchQueue(label: "PetClassifierRequest", qos: .userInitiated, attributes: [], autoreleaseFrequency: .workItem)
     
     // MARK: - Subview
     
@@ -16,13 +24,12 @@ class ViewController: UIViewController {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .white
-        image.layer.borderColor = #colorLiteral(red: 0.8039215803, green: 0.8039215803, blue: 0.8039215803, alpha: 1)
-        image.layer.borderWidth = 1
+        image.image = #imageLiteral(resourceName: "cat-and-dog")
         image.contentMode = .scaleAspectFit
         
         return image
     }()
-    
+
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -37,11 +44,7 @@ class ViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = .white
-        button.layer.cornerRadius = 5
-        button.layer.borderWidth = 1
-        button.layer.borderColor = #colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1)
-        button.setTitle("Проверить", for: .normal)
-        button.setTitleColor(#colorLiteral(red: 0.1764705926, green: 0.01176470611, blue: 0.5607843399, alpha: 1), for: .normal)
+        button.setTitle("Выбрать изображение", for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
         button.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
         
@@ -65,6 +68,64 @@ class ViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        setupVision()
+    }
+    
+    private func setupVision() {
+        animalRecognitionRequest = VNRecognizeAnimalsRequest { (request, error) in
+            DispatchQueue.main.async {
+                if let results = request.results as? [VNRecognizedObjectObservation] {
+                    var detectionString = ""
+                    var animalCount = 0
+                    for result in results {
+                        let animals = result.labels
+                        for animal in animals {
+                            animalCount = animalCount + 1
+                            var animalLabel = ""
+                            if animal.identifier == "Cat" {
+                                animalLabel = "😸"
+                            } else {
+                                animalLabel = "🐶"
+                            }
+                            let string = "#\(animalCount) \(animal.identifier) \(animalLabel) confidence is \(animal.confidence)\n"
+                            detectionString = detectionString + string
+                        }
+                    }
+                    if detectionString.isEmpty {
+                        detectionString = "Neither cat nor dog"
+                    }
+                    self.resultLabel.text = detectionString
+                }
+            }
+        }
+    }
+    
+    private func processImage(_ image: UIImage) {
+        animaleImageView.image = image
+        animalClassifier(image)
+    }
+    
+    private func animalClassifier(_ image: UIImage) {
+        guard let cgImage = image.cgImage else { return }
+        
+        animalRecognitionWorkQueue.async {
+            let requestHandler = VNImageRequestHandler(cgImage: cgImage, options: [:])
+            do {
+                try requestHandler.perform([self.animalRecognitionRequest])
+            } catch {
+                print(error)
+            }
+        }
+    }
+    
+    func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+        dismiss(animated: true) {
+            if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
+                self.animaleImageView.image = image
+                self.processImage(image)
+            }
+        }
     }
     
 }
@@ -74,7 +135,10 @@ class ViewController: UIViewController {
 private extension ViewController {
     @objc
     func checkButtonTapped() {
-        print("checkButtonTapped")
+        let imagePicker = UIImagePickerController()
+        imagePicker.sourceType = .photoLibrary
+        imagePicker.delegate = self
+        present(imagePicker, animated: true, completion: nil)
     }
 }
 
@@ -84,16 +148,16 @@ private extension ViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
             animaleImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            animaleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            animaleImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            animaleImageView.heightAnchor.constraint(equalToConstant: 200),
+            animaleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animaleImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animaleImageView.heightAnchor.constraint(equalToConstant: 220),
             
             resultLabel.topAnchor.constraint(equalTo: animaleImageView.bottomAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
             checkButton.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 100),
-            checkButton.widthAnchor.constraint(equalToConstant: 140),
+            checkButton.widthAnchor.constraint(equalToConstant: 180),
             checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }

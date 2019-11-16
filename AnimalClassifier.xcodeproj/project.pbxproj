@@ -56,15 +56,31 @@
 		3ECC8A41237F1EDC007C2F6A /* AnimalClassifier */ = {
 			isa = PBXGroup;
 			children = (
-				3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */,
-				3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */,
-				3ECC8A46237F1EDC007C2F6A /* ViewController.swift */,
-				3ECC8A56237F20E8007C2F6A /* Main.storyboard */,
-				3ECC8A4B237F1EDE007C2F6A /* Assets.xcassets */,
-				3ECC8A4D237F1EDE007C2F6A /* LaunchScreen.storyboard */,
-				3ECC8A50237F1EDE007C2F6A /* Info.plist */,
+				3ECC8A59237F32D5007C2F6A /* Controller */,
+				3ECC8A58237F3224007C2F6A /* SupportFile */,
 			);
 			path = AnimalClassifier;
+			sourceTree = "<group>";
+		};
+		3ECC8A58237F3224007C2F6A /* SupportFile */ = {
+			isa = PBXGroup;
+			children = (
+				3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */,
+				3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */,
+				3ECC8A4B237F1EDE007C2F6A /* Assets.xcassets */,
+				3ECC8A50237F1EDE007C2F6A /* Info.plist */,
+				3ECC8A56237F20E8007C2F6A /* Main.storyboard */,
+				3ECC8A4D237F1EDE007C2F6A /* LaunchScreen.storyboard */,
+			);
+			path = SupportFile;
+			sourceTree = "<group>";
+		};
+		3ECC8A59237F32D5007C2F6A /* Controller */ = {
+			isa = PBXGroup;
+			children = (
+				3ECC8A46237F1EDC007C2F6A /* ViewController.swift */,
+			);
+			path = Controller;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -278,7 +294,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2H6CKN6S5G;
-				INFOPLIST_FILE = AnimalClassifier/Info.plist;
+				INFOPLIST_FILE = AnimalClassifier/SupportFile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -296,7 +312,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
 				DEVELOPMENT_TEAM = 2H6CKN6S5G;
-				INFOPLIST_FILE = AnimalClassifier/Info.plist;
+				INFOPLIST_FILE = AnimalClassifier/SupportFile/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
