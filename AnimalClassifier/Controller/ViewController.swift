@@ -128,7 +128,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         }
     }
     
-    private func processImage(_ image: UIImage) {
+    func processImage(_ image: UIImage) {
         selectedImageView.image = image
         animalClassifier(image)
     }

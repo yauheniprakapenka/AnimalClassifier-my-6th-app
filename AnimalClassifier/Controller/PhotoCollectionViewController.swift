@@ -95,7 +95,14 @@ class PhotoCollectionViewController: UICollectionViewController {
     }
     
     override func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let cell = collectionView.cellForItem(at: indexPath) as! PhotosCell
+        guard let image = cell.photoImageView.image else { return }
         
+        let vc = ViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true) {
+            vc.processImage(image)
+        }
     }
 }
 
