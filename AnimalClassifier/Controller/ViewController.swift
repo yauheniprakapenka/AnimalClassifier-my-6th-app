@@ -20,11 +20,20 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     
     // MARK: - Subview
     
-    private lazy var animaleImageView: UIImageView = {
+    private lazy var catAndDogImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
         image.backgroundColor = .white
-        image.image = #imageLiteral(resourceName: "cat-and-dog")
+        image.image = #imageLiteral(resourceName: "cat-and-dog-select-default")
+        image.contentMode = .scaleAspectFit
+        
+        return image
+    }()
+    
+    private lazy var selectedImageView: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.backgroundColor = .white
         image.contentMode = .scaleAspectFit
         
         return image
@@ -34,7 +43,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        label.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        label.font = UIFont.systemFont(ofSize: 26, weight: .light)
+        label.textColor = #colorLiteral(red: 0.7051772475, green: 0.4836726785, blue: 0.2945596576, alpha: 1)
         label.text = "Hello World!"
         
         return label
@@ -57,7 +67,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         self.view = UIView()
         
         view.backgroundColor = .white
-        view.addSubview(animaleImageView)
+        
+        view.addSubview(catAndDogImageView)
+        view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(checkButton)
         
@@ -69,6 +81,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        resultLabel.alpha = 0
         setupVision()
     }
     
@@ -77,32 +90,34 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             DispatchQueue.main.async {
                 if let results = request.results as? [VNRecognizedObjectObservation] {
                     var detectionString = ""
-                    var animalCount = 0
                     for result in results {
                         let animals = result.labels
                         for animal in animals {
-                            animalCount = animalCount + 1
                             var animalLabel = ""
                             if animal.identifier == "Cat" {
-                                animalLabel = "😸"
+                                animalLabel = "Это кот 🐯"
+                                self.catAndDogImageView.image = #imageLiteral(resourceName: "cat-and-dog-select-cat")
                             } else {
-                                animalLabel = "🐶"
+                                animalLabel = "Это собака 🐶"
+                                self.catAndDogImageView.image = #imageLiteral(resourceName: "cat-and-dog-select-dog")
                             }
-                            let string = "#\(animalCount) \(animal.identifier) \(animalLabel) confidence is \(animal.confidence)\n"
+                            // let string = "This is \(animal.identifier) \(animalLabel) confidence is \(animal.confidence)\n"
+                            let string = "\(animalLabel)"
                             detectionString = detectionString + string
                         }
                     }
                     if detectionString.isEmpty {
-                        detectionString = "Neither cat nor dog"
+                        detectionString = "Это не кот и не собака 💁‍♀️"
                     }
                     self.resultLabel.text = detectionString
+                    self.resultLabel.alpha = 1
                 }
             }
         }
     }
     
     private func processImage(_ image: UIImage) {
-        animaleImageView.image = image
+        selectedImageView.image = image
         animalClassifier(image)
     }
     
@@ -122,7 +137,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         dismiss(animated: true) {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                self.animaleImageView.image = image
+                self.selectedImageView.image = image
                 self.processImage(image)
             }
         }
@@ -147,16 +162,21 @@ private extension ViewController {
 private extension ViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
-            animaleImageView.topAnchor.constraint(equalTo: view.topAnchor, constant: 100),
-            animaleImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            animaleImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            animaleImageView.heightAnchor.constraint(equalToConstant: 220),
-            
-            resultLabel.topAnchor.constraint(equalTo: animaleImageView.bottomAnchor, constant: 40),
+            resultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             
-            checkButton.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 100),
+            catAndDogImageView.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 0),
+            catAndDogImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            catAndDogImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            catAndDogImageView.heightAnchor.constraint(equalToConstant: 220),
+            
+            selectedImageView.topAnchor.constraint(equalTo: catAndDogImageView.bottomAnchor, constant: 20),
+            selectedImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            selectedImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            selectedImageView.heightAnchor.constraint(equalToConstant: 180),
+            
+            checkButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: 80),
             checkButton.widthAnchor.constraint(equalToConstant: 180),
             checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
