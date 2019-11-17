@@ -30,6 +30,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return image
     }()
     
+    private lazy var addButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -50,39 +58,6 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return label
     }()
     
-    private lazy var checkButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("Выбрать изображение", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        button.addTarget(self, action: #selector(checkButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    private lazy var unsplashButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("Загрузить из Unsplash", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        button.addTarget(self, action: #selector(unsplashButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    private lazy var camerahButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .white
-        button.setTitle("Камера", for: .normal)
-        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
-        button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -93,9 +68,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(catAndDogImageView)
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
-        view.addSubview(checkButton)
-        view.addSubview(unsplashButton)
-        view.addSubview(camerahButton)
+        view.addSubview(addButton)
         
         makeConstraints()
     }
@@ -119,20 +92,22 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                         for animal in animals {
                             var animalLabel = ""
                             if animal.identifier == "Cat" {
-                                animalLabel = "Это кот 🐯"
+                                animalLabel = "кот"
                                 self.catAndDogImageView.image = #imageLiteral(resourceName: "cat-and-dog-select-cat")
                             } else {
-                                animalLabel = "Это собака 🐶"
+                                animalLabel = "собака"
                                 self.catAndDogImageView.image = #imageLiteral(resourceName: "cat-and-dog-select-dog")
                             }
                             // let string = "This is \(animal.identifier) \(animalLabel) confidence is \(animal.confidence)\n"
-                            let string = "\(animalLabel)"
+                            let string = "это \(animalLabel) "
                             detectionString = detectionString + string
                         }
                     }
+                    
                     if detectionString.isEmpty {
                         detectionString = "Это не кот и не собака 💁‍♀️"
                     }
+
                     self.resultLabel.text = detectionString
                     self.resultLabel.alpha = 1
                 }
@@ -161,33 +136,45 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         dismiss(animated: true) {
             if let image = info[UIImagePickerController.InfoKey.originalImage] as? UIImage {
-                self.selectedImageView.image = image
                 self.processImage(image)
             }
         }
     }
-    
 }
 
 // MARK: - Action
 
 private extension ViewController {
     @objc
-    func checkButtonTapped() {
+    func addButtonTapped() {
+        let alert = UIAlertController()
+        alert.addAction(UIAlertAction(title: "Галерея", style: .default, handler: { [weak self] _ in
+            self?.libraryButtonTapped()
+        }))
+        alert.addAction(UIAlertAction(title: "Интернет", style: .default, handler: { [weak self] _ in
+            self?.unsplashButtonTapped()
+        }))
+        alert.addAction(UIAlertAction(title: "Камера", style: .default, handler: { [weak self] _ in
+            self?.cameraButtonTapped()
+        }))
+        alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
+        
+        present(alert, animated: true)
+    }
+    
+    func libraryButtonTapped() {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
         imagePicker.delegate = self
         present(imagePicker, animated: true, completion: nil)
     }
     
-    @objc
     func unsplashButtonTapped() {
         let vc = PhotoCollectionViewController(collectionViewLayout: UICollectionViewFlowLayout())
         let navigationVC = UINavigationController(rootViewController: vc)
         present(navigationVC, animated: true, completion: nil)
     }
     
-    @objc
     func cameraButtonTapped() {
         let vc = UIImagePickerController()
         vc.sourceType = .camera
@@ -216,17 +203,10 @@ private extension ViewController {
             selectedImageView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             selectedImageView.heightAnchor.constraint(equalToConstant: 180),
             
-            checkButton.topAnchor.constraint(equalTo: selectedImageView.bottomAnchor, constant: 80),
-            checkButton.widthAnchor.constraint(equalToConstant: 180),
-            checkButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            unsplashButton.topAnchor.constraint(equalTo: checkButton.bottomAnchor, constant: 20),
-            unsplashButton.widthAnchor.constraint(equalToConstant: 180),
-            unsplashButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            
-            camerahButton.topAnchor.constraint(equalTo: unsplashButton.bottomAnchor, constant: 20),
-            camerahButton.widthAnchor.constraint(equalToConstant: 100),
-            camerahButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            addButton.widthAnchor.constraint(equalToConstant: 80),
+            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
         ])
     }
 }
