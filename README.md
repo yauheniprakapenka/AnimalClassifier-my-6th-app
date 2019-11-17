@@ -13,14 +13,13 @@ Swift 5, iOS 13.2.2, Xcode 11.2.1
 
 <b>О проекте:</b>
 - Архитектура MVC
+- Менеджером зависимостей является CocoaPods. Подключенные библиотеки: SDWebImage
 - Поиск изображения через Unsplash API 
-
-<b>Скриншоты:</b>
-
-<a href="https://ibb.co/Y0CV43s"><img src="https://i.ibb.co/hY6Txyz/download1.png" alt="download1" width="200"></a>
-<a href="https://ibb.co/SNqzLQr"><img src="https://i.ibb.co/nrhFW3C/download2.png" alt="download2" width="200"></a>
-<a href="https://ibb.co/s6pvvn4"><img src="https://i.ibb.co/1dYff1N/download3.png" alt="download3" width="200"></a>
 
 <b>Видео:</b>
 
 Демонстрация приложения [здесь](https://drive.google.com/open?id=1uKtgOouaY2xybl2sW4PlhLFnmHRcHgIz)
+
+<b>Скриншоты:</b>
+
+<a href="https://ibb.co/PFBdzSW"><img src="https://i.ibb.co/ckzjXm8/Screenshot-2019-11-17-at-13-56-26.png" alt="Screenshot-2019-11-17-at-13-56-26" width="1000"></a>
