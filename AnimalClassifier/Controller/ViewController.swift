@@ -140,6 +140,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
             }
         }
     }
+    
+    private func mafeDefault() {
+        catAndDogImageView.image = #imageLiteral(resourceName: "cat-and-dog-select-default")
+        resultLabel.text = ""
+        selectedImageView.image = nil
+    }
 }
 
 // MARK: - Action
@@ -147,6 +153,8 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
 private extension ViewController {
     @objc
     func addButtonTapped() {
+        mafeDefault()
+        
         let alert = UIAlertController()
         alert.addAction(UIAlertAction(title: "Галерея", style: .default, handler: { [weak self] _ in
             self?.libraryButtonTapped()
@@ -158,7 +166,6 @@ private extension ViewController {
             self?.cameraButtonTapped()
         }))
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
-        
         present(alert, animated: true)
     }
     
@@ -192,6 +199,7 @@ private extension ViewController {
             resultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            resultLabel.heightAnchor.constraint(equalToConstant: 20),
             
             catAndDogImageView.topAnchor.constraint(equalTo: resultLabel.bottomAnchor, constant: 0),
             catAndDogImageView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
