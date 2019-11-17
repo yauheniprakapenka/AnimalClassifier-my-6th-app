@@ -72,6 +72,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var camerahButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .white
+        button.setTitle("Камера", for: .normal)
+        button.titleLabel?.font = UIFont.systemFont(ofSize: 16, weight: .light)
+        button.addTarget(self, action: #selector(cameraButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -84,6 +95,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(resultLabel)
         view.addSubview(checkButton)
         view.addSubview(unsplashButton)
+        view.addSubview(camerahButton)
         
         makeConstraints()
     }
@@ -174,6 +186,15 @@ private extension ViewController {
         let navigationVC = UINavigationController(rootViewController: vc)
         present(navigationVC, animated: true, completion: nil)
     }
+    
+    @objc
+    func cameraButtonTapped() {
+        let vc = UIImagePickerController()
+        vc.sourceType = .camera
+        vc.allowsEditing = true
+        vc.delegate = self
+        present(vc, animated: true)
+    }
 }
 
 // MARK: - Layout
@@ -201,7 +222,11 @@ private extension ViewController {
             
             unsplashButton.topAnchor.constraint(equalTo: checkButton.bottomAnchor, constant: 20),
             unsplashButton.widthAnchor.constraint(equalToConstant: 180),
-            unsplashButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+            unsplashButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            
+            camerahButton.topAnchor.constraint(equalTo: unsplashButton.bottomAnchor, constant: 20),
+            camerahButton.widthAnchor.constraint(equalToConstant: 100),
+            camerahButton.centerXAnchor.constraint(equalTo: view.centerXAnchor)
         ])
     }
 }
