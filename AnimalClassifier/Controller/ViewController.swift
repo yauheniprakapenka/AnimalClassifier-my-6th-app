@@ -38,6 +38,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var faceTrackingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("AR", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -69,6 +78,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(addButton)
+        view.addSubview(faceTrackingButton)
         
         makeConstraints()
     }
@@ -105,7 +115,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     }
                     
                     if detectionString.isEmpty {
-                        detectionString = "Это не кот и не собака 💁‍♀️"
+                        detectionString = "Это не кот и не собака"
                     }
 
                     self.resultLabel.text = detectionString
@@ -189,6 +199,12 @@ private extension ViewController {
         vc.delegate = self
         present(vc, animated: true)
     }
+    
+    @objc
+    func faceTrackingButtonTapped() {
+        let vc = FaceTrackingViewController()
+        present(vc, animated: true)
+    }
 }
 
 // MARK: - Layout
@@ -214,7 +230,12 @@ private extension ViewController {
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.widthAnchor.constraint(equalToConstant: 80),
-            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
+            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
+            
+            faceTrackingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
+            faceTrackingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            faceTrackingButton.widthAnchor.constraint(equalToConstant: 80),
+            faceTrackingButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
         ])
     }
 }
