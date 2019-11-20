@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		3EAD93072385B78A00941D4B /* Plane.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD93062385B78A00941D4B /* Plane.swift */; };
+		3EAD93092385CBA300941D4B /* Box.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EAD93082385CBA300941D4B /* Box.swift */; };
 		3EBE8C69238316DC00FF4C0D /* FaceTrackingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EBE8C68238316DC00FF4C0D /* FaceTrackingViewController.swift */; };
 		3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */; };
 		3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */; };
@@ -27,6 +28,7 @@
 		0D059FF3C19F5369840596F0 /* Pods_AnimalClassifier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimalClassifier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB7A6B922E589DEFBD7EC9B /* Pods-AnimalClassifier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalClassifier.debug.xcconfig"; path = "Target Support Files/Pods-AnimalClassifier/Pods-AnimalClassifier.debug.xcconfig"; sourceTree = "<group>"; };
 		3EAD93062385B78A00941D4B /* Plane.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Plane.swift; sourceTree = "<group>"; };
+		3EAD93082385CBA300941D4B /* Box.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Box.swift; sourceTree = "<group>"; };
 		3EBE8C68238316DC00FF4C0D /* FaceTrackingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTrackingViewController.swift; sourceTree = "<group>"; };
 		3ECC8A3F237F1EDC007C2F6A /* AnimalClassifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalClassifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -148,6 +150,7 @@
 			children = (
 				3EBE8C68238316DC00FF4C0D /* FaceTrackingViewController.swift */,
 				3EAD93062385B78A00941D4B /* Plane.swift */,
+				3EAD93082385CBA300941D4B /* Box.swift */,
 			);
 			path = FaceTracking;
 			sourceTree = "<group>";
@@ -280,6 +283,7 @@
 				3EAD93072385B78A00941D4B /* Plane.swift in Sources */,
 				3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */,
 				3ECC8A64237FF894007C2F6A /* SearchResultModel.swift in Sources */,
+				3EAD93092385CBA300941D4B /* Box.swift in Sources */,
 				3ECC8A6823800364007C2F6A /* PhotosCell.swift in Sources */,
 				3ECC8A60237FF7DC007C2F6A /* UnsplashNetworkService.swift in Sources */,
 				3EBE8C69238316DC00FF4C0D /* FaceTrackingViewController.swift in Sources */,

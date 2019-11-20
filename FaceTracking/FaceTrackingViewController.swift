@@ -42,6 +42,8 @@ class FaceTrackingViewController: UIViewController {
         sceneView.autoenablesDefaultLighting = true
         let scene = SCNScene()
         sceneView.scene = scene
+        
+        setupGesture()
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -57,6 +59,29 @@ class FaceTrackingViewController: UIViewController {
         
         sceneView.session.pause()
     }
+    
+    func setupGesture() {
+        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(placeBox))
+        tapGestureRecognizer.numberOfTouchesRequired = 1
+        self.sceneView.addGestureRecognizer(tapGestureRecognizer)
+    }
+    
+    @objc func placeBox(tapGesure: UITapGestureRecognizer) {
+        let sceneView = tapGesure.view as! ARSCNView
+        let location = tapGesure.location(in: sceneView)
+        let hitTestResult = sceneView.hitTest(location, types: .existingPlaneUsingExtent)
+        guard let hitResult = hitTestResult.first else { return }
+        
+        createBox(hitResult: hitResult)
+    }
+    
+    func createBox(hitResult: ARHitTestResult) {
+        let position = SCNVector3(hitResult.worldTransform.columns.3.x,
+                                  hitResult.worldTransform.columns.3.y + 0.05 + 0.5,
+                                  hitResult.worldTransform.columns.3.z)
+        let box = Box(atPosition: position)
+        sceneView.scene.rootNode.addChildNode(box)
+    }
 }
 
 // MARK: - Layout
@@ -71,6 +96,8 @@ private extension FaceTrackingViewController {
         ])
     }
 }
+
+// MARK: - ARSCNViewDelegate
 
 extension FaceTrackingViewController: ARSCNViewDelegate {
     
