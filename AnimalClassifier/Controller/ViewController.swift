@@ -23,7 +23,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     private lazy var catAndDogImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.image = #imageLiteral(resourceName: "cat-and-dog-select-default")
         image.contentMode = .scaleAspectFit
         
@@ -38,10 +38,19 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var AirplaneAndRobotButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.setTitle("AR", for: .normal)
+        button.setTitleColor(.red, for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.contentMode = .scaleAspectFit
         
         return image
@@ -58,6 +67,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return label
     }()
     
+    private lazy var backgroundImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.backgroundColor = .white
+        image.image = #imageLiteral(resourceName: "cat-pattern")
+        image.alpha = 0.08
+        image.contentMode = .scaleAspectFill
+        
+        return image
+    }()
+    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -65,10 +85,12 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         view.backgroundColor = .white
         
+        view.addSubview(backgroundImage)
         view.addSubview(catAndDogImageView)
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(addButton)
+        view.addSubview(AirplaneAndRobotButton)
         
         makeConstraints()
     }
@@ -105,7 +127,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     }
                     
                     if detectionString.isEmpty {
-                        detectionString = "Это не кот и не собака 💁‍♀️"
+                        detectionString = "Это не кот и не собака"
                     }
 
                     self.resultLabel.text = detectionString
@@ -189,6 +211,12 @@ private extension ViewController {
         vc.delegate = self
         present(vc, animated: true)
     }
+    
+    @objc
+    func faceTrackingButtonTapped() {
+        let vc = AirplaneAndRobotViewController()
+        present(vc, animated: true)
+    }
 }
 
 // MARK: - Layout
@@ -196,6 +224,11 @@ private extension ViewController {
 private extension ViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             resultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -214,7 +247,12 @@ private extension ViewController {
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.widthAnchor.constraint(equalToConstant: 80),
-            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
+            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
+            
+            AirplaneAndRobotButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
+            AirplaneAndRobotButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            AirplaneAndRobotButton.widthAnchor.constraint(equalToConstant: 80),
+            AirplaneAndRobotButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
         ])
     }
 }
