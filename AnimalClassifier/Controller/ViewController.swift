@@ -38,7 +38,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
-    private lazy var faceTrackingButton: UIButton = {
+    private lazy var AirplaneAndRobotButton: UIButton = {
         let button = UIButton(type: .system)
         button.setTitle("AR", for: .normal)
         button.setTitleColor(.red, for: .normal)
@@ -78,7 +78,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(addButton)
-        view.addSubview(faceTrackingButton)
+        view.addSubview(AirplaneAndRobotButton)
         
         makeConstraints()
     }
@@ -202,7 +202,7 @@ private extension ViewController {
     
     @objc
     func faceTrackingButtonTapped() {
-        let vc = FaceTrackingViewController()
+        let vc = AirplaneAndRobotViewController()
         present(vc, animated: true)
     }
 }
@@ -232,10 +232,10 @@ private extension ViewController {
             addButton.widthAnchor.constraint(equalToConstant: 80),
             addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
             
-            faceTrackingButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
-            faceTrackingButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            faceTrackingButton.widthAnchor.constraint(equalToConstant: 80),
-            faceTrackingButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
+            AirplaneAndRobotButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
+            AirplaneAndRobotButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            AirplaneAndRobotButton.widthAnchor.constraint(equalToConstant: 80),
+            AirplaneAndRobotButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
         ])
     }
 }
