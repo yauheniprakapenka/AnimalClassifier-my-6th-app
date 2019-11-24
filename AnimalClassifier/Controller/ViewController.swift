@@ -23,7 +23,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     private lazy var catAndDogImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.image = #imageLiteral(resourceName: "cat-and-dog-select-default")
         image.contentMode = .scaleAspectFit
         
@@ -50,7 +50,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.contentMode = .scaleAspectFit
         
         return image
@@ -67,6 +67,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return label
     }()
     
+    private lazy var backgroundImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.backgroundColor = .white
+        image.image = #imageLiteral(resourceName: "cat-pattern")
+        image.alpha = 0.08
+        image.contentMode = .scaleAspectFill
+        
+        return image
+    }()
+    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -74,6 +85,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         view.backgroundColor = .white
         
+        view.addSubview(backgroundImage)
         view.addSubview(catAndDogImageView)
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
@@ -212,6 +224,11 @@ private extension ViewController {
 private extension ViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             resultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
