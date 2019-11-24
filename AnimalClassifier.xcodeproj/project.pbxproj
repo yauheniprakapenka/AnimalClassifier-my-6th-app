@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 51;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -18,6 +18,8 @@
 		3ECC8A62237FF84F007C2F6A /* NetworkDataFetcher.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A61237FF84F007C2F6A /* NetworkDataFetcher.swift */; };
 		3ECC8A64237FF894007C2F6A /* SearchResultModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A63237FF894007C2F6A /* SearchResultModel.swift */; };
 		3ECC8A6823800364007C2F6A /* PhotosCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A6723800364007C2F6A /* PhotosCell.swift */; };
+		3EF7A088238992B800F8BFAE /* AirplaneAndRobotViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A087238992B800F8BFAE /* AirplaneAndRobotViewController.swift */; };
+		3EF7A0892389956300F8BFAE /* RoboMan.rcproject in Sources */ = {isa = PBXBuildFile; fileRef = 3EF7A086238981C300F8BFAE /* RoboMan.rcproject */; };
 		8E893EEDFA39D23C021869FE /* Pods_AnimalClassifier.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0D059FF3C19F5369840596F0 /* Pods_AnimalClassifier.framework */; };
 /* End PBXBuildFile section */
 
@@ -37,6 +39,8 @@
 		3ECC8A61237FF84F007C2F6A /* NetworkDataFetcher.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkDataFetcher.swift; sourceTree = "<group>"; };
 		3ECC8A63237FF894007C2F6A /* SearchResultModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchResultModel.swift; sourceTree = "<group>"; };
 		3ECC8A6723800364007C2F6A /* PhotosCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotosCell.swift; sourceTree = "<group>"; };
+		3EF7A086238981C300F8BFAE /* RoboMan.rcproject */ = {isa = PBXFileReference; lastKnownFileType = file.rcproject; path = RoboMan.rcproject; sourceTree = "<group>"; };
+		3EF7A087238992B800F8BFAE /* AirplaneAndRobotViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AirplaneAndRobotViewController.swift; sourceTree = "<group>"; };
 		FDD7BE478E22C40A9AE7C7D7 /* Pods-AnimalClassifier.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalClassifier.release.xcconfig"; path = "Target Support Files/Pods-AnimalClassifier/Pods-AnimalClassifier.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -58,13 +62,22 @@
 				2BB7A6B922E589DEFBD7EC9B /* Pods-AnimalClassifier.debug.xcconfig */,
 				FDD7BE478E22C40A9AE7C7D7 /* Pods-AnimalClassifier.release.xcconfig */,
 			);
-			name = Pods;
 			path = Pods;
+			sourceTree = "<group>";
+		};
+		3EB2BA42238A974200DE8976 /* AirplaneAndRobot */ = {
+			isa = PBXGroup;
+			children = (
+				3EF7A087238992B800F8BFAE /* AirplaneAndRobotViewController.swift */,
+				3EF7A086238981C300F8BFAE /* RoboMan.rcproject */,
+			);
+			path = AirplaneAndRobot;
 			sourceTree = "<group>";
 		};
 		3ECC8A36237F1EDC007C2F6A = {
 			isa = PBXGroup;
 			children = (
+				3EF7A0552389203200F8BFAE /* AugmentedReality */,
 				3ECC8A41237F1EDC007C2F6A /* AnimalClassifier */,
 				3ECC8A40237F1EDC007C2F6A /* Products */,
 				35F3565779512EC2FCA5EFE1 /* Pods */,
@@ -137,6 +150,14 @@
 				3ECC8A6723800364007C2F6A /* PhotosCell.swift */,
 			);
 			path = View;
+			sourceTree = "<group>";
+		};
+		3EF7A0552389203200F8BFAE /* AugmentedReality */ = {
+			isa = PBXGroup;
+			children = (
+				3EB2BA42238A974200DE8976 /* AirplaneAndRobot */,
+			);
+			path = AugmentedReality;
 			sourceTree = "<group>";
 		};
 		B2C214EA4B75B19941BE2EA3 /* Frameworks */ = {
@@ -262,7 +283,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3EF7A088238992B800F8BFAE /* AirplaneAndRobotViewController.swift in Sources */,
 				3ECC8A62237FF84F007C2F6A /* NetworkDataFetcher.swift in Sources */,
+				3EF7A0892389956300F8BFAE /* RoboMan.rcproject in Sources */,
 				3ECC8A47237F1EDC007C2F6A /* ViewController.swift in Sources */,
 				3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */,
 				3ECC8A64237FF894007C2F6A /* SearchResultModel.swift in Sources */,

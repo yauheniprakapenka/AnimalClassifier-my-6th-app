@@ -57,7 +57,7 @@ class PhotoCollectionViewController: UICollectionViewController {
     
     private func setupNavigationBar() {
         let titleLabel = UILabel()
-        titleLabel.text = "Unsplash"
+        titleLabel.text = "Поиск в Unsplash"
         titleLabel.font = UIFont.systemFont(ofSize: 16, weight: .medium)
         titleLabel.textColor = .gray
         navigationItem.leftBarButtonItem = UIBarButtonItem.init(customView: titleLabel)

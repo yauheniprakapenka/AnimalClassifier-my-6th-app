@@ -11,8 +11,6 @@ import Vision
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: - Input
-    
     // MARK: - Properties
     
     private var animalRecognitionRequest = VNRecognizeAnimalsRequest(completionHandler: nil)
@@ -23,7 +21,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     private lazy var catAndDogImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.image = #imageLiteral(resourceName: "cat-and-dog-select-default")
         image.contentMode = .scaleAspectFit
         
@@ -38,10 +36,18 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var arButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "360-degrees"), for: .normal)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
-        image.backgroundColor = .white
+        image.backgroundColor = .clear
         image.contentMode = .scaleAspectFit
         
         return image
@@ -53,9 +59,42 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 26, weight: .light)
         label.textColor = #colorLiteral(red: 0.7051772475, green: 0.4836726785, blue: 0.2945596576, alpha: 1)
-        label.text = "Hello World!"
+        label.text = ""
         
         return label
+    }()
+    
+    private lazy var aboutLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        label.text = "Об авторе"
+        
+        return label
+    }()
+    
+    private lazy var addLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        label.text = "Добавить фото"
+        
+        return label
+    }()
+    
+    private lazy var backgroundImage: UIImageView = {
+        let image = UIImageView()
+        image.translatesAutoresizingMaskIntoConstraints = false
+        image.backgroundColor = .white
+        image.image = #imageLiteral(resourceName: "cat-pattern")
+        image.alpha = 0.08
+        image.contentMode = .scaleAspectFill
+        
+        return image
     }()
     
     // MARK: - View lifecycle
@@ -65,10 +104,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         view.backgroundColor = .white
         
+        view.addSubview(backgroundImage)
         view.addSubview(catAndDogImageView)
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(addButton)
+        view.addSubview(arButton)
+        view.addSubview(aboutLabel)
+        view.addSubview(addLabel)
         
         makeConstraints()
     }
@@ -105,7 +148,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     }
                     
                     if detectionString.isEmpty {
-                        detectionString = "Это не кот и не собака 💁‍♀️"
+                        detectionString = "Это не кот и не собака"
                     }
 
                     self.resultLabel.text = detectionString
@@ -159,7 +202,7 @@ private extension ViewController {
         alert.addAction(UIAlertAction(title: "Галерея", style: .default, handler: { [weak self] _ in
             self?.libraryButtonTapped()
         }))
-        alert.addAction(UIAlertAction(title: "Интернет", style: .default, handler: { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "Unsplash", style: .default, handler: { [weak self] _ in
             self?.unsplashButtonTapped()
         }))
         alert.addAction(UIAlertAction(title: "Камера", style: .default, handler: { [weak self] _ in
@@ -189,6 +232,12 @@ private extension ViewController {
         vc.delegate = self
         present(vc, animated: true)
     }
+    
+    @objc
+    func faceTrackingButtonTapped() {
+        let vc = AirplaneAndRobotViewController()
+        present(vc, animated: true)
+    }
 }
 
 // MARK: - Layout
@@ -196,6 +245,11 @@ private extension ViewController {
 private extension ViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.layoutMarginsGuide.topAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             resultLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40),
             resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
@@ -214,7 +268,21 @@ private extension ViewController {
             addButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
             addButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
             addButton.widthAnchor.constraint(equalToConstant: 80),
-            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
+            addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
+            
+            arButton.bottomAnchor.constraint(equalTo: addButton.bottomAnchor),
+            arButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            arButton.widthAnchor.constraint(equalToConstant: 80),
+            arButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
+            
+            aboutLabel.topAnchor.constraint(equalTo: arButton.bottomAnchor, constant: 2),
+            aboutLabel.widthAnchor.constraint(equalTo: arButton.widthAnchor),
+            aboutLabel.heightAnchor.constraint(equalToConstant: 16),
+            aboutLabel.leadingAnchor.constraint(equalTo: arButton.leadingAnchor),
+            
+            addLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 10),
+            addLabel.heightAnchor.constraint(equalToConstant: 16),
+            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4)
         ])
     }
 }

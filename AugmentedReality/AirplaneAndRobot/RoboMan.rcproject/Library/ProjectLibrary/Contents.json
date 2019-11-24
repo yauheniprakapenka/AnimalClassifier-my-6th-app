@@ -1,0 +1,22 @@
+[
+  {
+    "libraryIdentifier" : "7eb017d1437e7015345283194be8d3dc",
+    "format" : "model",
+    "displayName" : "toy_robot_vintage.usdz"
+  },
+  {
+    "libraryIdentifier" : "2365e147ac1ee58d91c456df20b468eb",
+    "format" : "model",
+    "displayName" : "cat.usdz"
+  },
+  {
+    "libraryIdentifier" : "96f511067462ccf0ad3a54d1b62031c8",
+    "format" : "model",
+    "displayName" : "toy_biplane (1).usdz"
+  },
+  {
+    "libraryIdentifier" : "07e9b2316a48c131a564d622d26210ba",
+    "format" : "model",
+    "displayName" : "toy_car.usdz"
+  }
+]
