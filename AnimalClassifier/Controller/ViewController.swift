@@ -202,7 +202,7 @@ private extension ViewController {
         alert.addAction(UIAlertAction(title: "Галерея", style: .default, handler: { [weak self] _ in
             self?.libraryButtonTapped()
         }))
-        alert.addAction(UIAlertAction(title: "Интернет", style: .default, handler: { [weak self] _ in
+        alert.addAction(UIAlertAction(title: "Unsplash", style: .default, handler: { [weak self] _ in
             self?.unsplashButtonTapped()
         }))
         alert.addAction(UIAlertAction(title: "Камера", style: .default, handler: { [weak self] _ in
@@ -281,7 +281,6 @@ private extension ViewController {
             aboutLabel.leadingAnchor.constraint(equalTo: arButton.leadingAnchor),
             
             addLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 10),
-//            addLabel.widthAnchor.constraint(equalTo: addButton.widthAnchor),
             addLabel.heightAnchor.constraint(equalToConstant: 16),
             addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4)
         ])
