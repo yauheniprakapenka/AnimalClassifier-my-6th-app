@@ -11,8 +11,6 @@ import Vision
 
 class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
     
-    // MARK: - Input
-    
     // MARK: - Properties
     
     private var animalRecognitionRequest = VNRecognizeAnimalsRequest(completionHandler: nil)
@@ -38,10 +36,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
-    private lazy var AirplaneAndRobotButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.setTitle("AR", for: .normal)
-        button.setTitleColor(.red, for: .normal)
+    private lazy var arButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "360-degrees"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
         return button
@@ -62,7 +59,29 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         label.textAlignment = .center
         label.font = UIFont.systemFont(ofSize: 26, weight: .light)
         label.textColor = #colorLiteral(red: 0.7051772475, green: 0.4836726785, blue: 0.2945596576, alpha: 1)
-        label.text = "Hello World!"
+        label.text = ""
+        
+        return label
+    }()
+    
+    private lazy var aboutLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        label.text = "Об авторе"
+        
+        return label
+    }()
+    
+    private lazy var addLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        label.text = "Добавить фото"
         
         return label
     }()
@@ -90,7 +109,9 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(selectedImageView)
         view.addSubview(resultLabel)
         view.addSubview(addButton)
-        view.addSubview(AirplaneAndRobotButton)
+        view.addSubview(arButton)
+        view.addSubview(aboutLabel)
+        view.addSubview(addLabel)
         
         makeConstraints()
     }
@@ -249,10 +270,20 @@ private extension ViewController {
             addButton.widthAnchor.constraint(equalToConstant: 80),
             addButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
             
-            AirplaneAndRobotButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -140),
-            AirplaneAndRobotButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            AirplaneAndRobotButton.widthAnchor.constraint(equalToConstant: 80),
-            AirplaneAndRobotButton.heightAnchor.constraint(equalTo: addButton.widthAnchor)
+            arButton.bottomAnchor.constraint(equalTo: addButton.bottomAnchor),
+            arButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -40),
+            arButton.widthAnchor.constraint(equalToConstant: 80),
+            arButton.heightAnchor.constraint(equalTo: addButton.widthAnchor),
+            
+            aboutLabel.topAnchor.constraint(equalTo: arButton.bottomAnchor, constant: 2),
+            aboutLabel.widthAnchor.constraint(equalTo: arButton.widthAnchor),
+            aboutLabel.heightAnchor.constraint(equalToConstant: 16),
+            aboutLabel.leadingAnchor.constraint(equalTo: arButton.leadingAnchor),
+            
+            addLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 10),
+//            addLabel.widthAnchor.constraint(equalTo: addButton.widthAnchor),
+            addLabel.heightAnchor.constraint(equalToConstant: 16),
+            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4)
         ])
     }
 }
