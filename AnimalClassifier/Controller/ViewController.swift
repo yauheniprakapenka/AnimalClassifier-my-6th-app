@@ -44,6 +44,14 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var boosterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.backgroundColor = .red
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(boosterButtonTapped), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -112,6 +120,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(arButton)
         view.addSubview(aboutLabel)
         view.addSubview(addLabel)
+        view.addSubview(boosterButton)
         
         makeConstraints()
     }
@@ -238,6 +247,13 @@ private extension ViewController {
         let vc = AirplaneAndRobotViewController()
         present(vc, animated: true)
     }
+    
+    @objc
+    func boosterButtonTapped() {
+        let vc = BoosterViewController()
+        present(vc, animated: true)
+        print(#function)
+    }
 }
 
 // MARK: - Layout
@@ -282,7 +298,12 @@ private extension ViewController {
             
             addLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 10),
             addLabel.heightAnchor.constraint(equalToConstant: 16),
-            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4)
+            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4),
+            
+            boosterButton.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -30),
+            boosterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            boosterButton.widthAnchor.constraint(equalToConstant: 80),
+            boosterButton.heightAnchor.constraint(equalTo: boosterButton.widthAnchor),
         ])
     }
 }

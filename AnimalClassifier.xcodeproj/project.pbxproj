@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E3A71F9238C6435000C17C2 /* BoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */; };
 		3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */; };
 		3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */; };
 		3ECC8A47237F1EDC007C2F6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A46237F1EDC007C2F6A /* ViewController.swift */; };
@@ -26,6 +27,7 @@
 /* Begin PBXFileReference section */
 		0D059FF3C19F5369840596F0 /* Pods_AnimalClassifier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimalClassifier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB7A6B922E589DEFBD7EC9B /* Pods-AnimalClassifier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalClassifier.debug.xcconfig"; path = "Target Support Files/Pods-AnimalClassifier/Pods-AnimalClassifier.debug.xcconfig"; sourceTree = "<group>"; };
+		3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterViewController.swift; sourceTree = "<group>"; };
 		3ECC8A3F237F1EDC007C2F6A /* AnimalClassifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalClassifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 			children = (
 				3ECC8A46237F1EDC007C2F6A /* ViewController.swift */,
 				3ECC8A5A237FDB13007C2F6A /* PhotoCollectionViewController.swift */,
+				3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -292,6 +295,7 @@
 				3ECC8A6823800364007C2F6A /* PhotosCell.swift in Sources */,
 				3ECC8A60237FF7DC007C2F6A /* UnsplashNetworkService.swift in Sources */,
 				3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */,
+				3E3A71F9238C6435000C17C2 /* BoosterViewController.swift in Sources */,
 				3ECC8A5B237FDB13007C2F6A /* PhotoCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
