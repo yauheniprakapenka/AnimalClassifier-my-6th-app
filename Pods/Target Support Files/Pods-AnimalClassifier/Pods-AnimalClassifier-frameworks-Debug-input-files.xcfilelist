@@ -1,2 +1,3 @@
 ${PODS_ROOT}/Target Support Files/Pods-AnimalClassifier/Pods-AnimalClassifier-frameworks.sh
+${BUILT_PRODUCTS_DIR}/AnimatedGradientView/AnimatedGradientView.framework
 ${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework
