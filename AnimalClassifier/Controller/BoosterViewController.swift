@@ -7,8 +7,11 @@
 //
 
 import UIKit
+import AnimatedGradientView
 
 class BoosterViewController: UIViewController {
+    
+    // MARK: - Properties
     
     private var randomNumber: Int?
     
@@ -20,35 +23,11 @@ class BoosterViewController: UIViewController {
     private let loseImage = #imageLiteral(resourceName: "card-front")
     private let backsideImage = #imageLiteral(resourceName: "card-back")
     
-    private lazy var leftBoosterButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "card-back"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
+    // MARK: - Subview
     
-    private lazy var centerBoosterButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "card-back"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(centerButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    private lazy var rightBoosterButton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(#imageLiteral(resourceName: "card-back"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
+    private lazy var leftBoosterButton: UIButton = makeButton(withImage: #imageLiteral(resourceName: "card-back"))
+    private lazy var centerBoosterButton: UIButton = makeButton(withImage: #imageLiteral(resourceName: "card-back"))
+    private lazy var rightBoosterButton: UIButton = makeButton(withImage: #imageLiteral(resourceName: "card-back"))
     
     private lazy var okButton: UIButton = {
         let button = UIButton(type: .system)
@@ -71,6 +50,17 @@ class BoosterViewController: UIViewController {
         return stack
     }()
     
+    private lazy var animatedGradientView: AnimatedGradientView = {
+        let view = AnimatedGradientView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.direction = .up
+        view.animationValues = [(colors: ["#4e26b5", "#5629c8"], .up, .axial),
+                                (colors: ["#833ab4", "#8e0e99"], .right, .axial),
+                                (colors: ["#4e26b5", "#371b7e"], .down, .axial),
+                                (colors: ["#0f3d9b", "#410f9b"], .left, .axial)]
+        return view
+    }()
+    
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -87,6 +77,7 @@ class BoosterViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        view.addSubview(animatedGradientView)
         view.addSubview(boosterStackView)
         view.addSubview(resultLabel)
         view.addSubview(okButton)
@@ -104,6 +95,10 @@ class BoosterViewController: UIViewController {
         boosterStackView.addArrangedSubview(rightBoosterButton)
         
         displayResultLabel()
+        
+        leftBoosterButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
+        centerBoosterButton.addTarget(self, action: #selector(centerButtonTapped), for: .touchUpInside)
+        rightBoosterButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
     }
     
     // MARK: - Action
@@ -194,6 +189,11 @@ class BoosterViewController: UIViewController {
 private extension BoosterViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
+            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             boosterStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
             boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             boosterStackView.heightAnchor.constraint(equalToConstant: 200),
@@ -211,3 +211,15 @@ private extension BoosterViewController {
         ])
     }
 }
+
+private extension BoosterViewController {
+    func makeButton(withImage image: UIImage) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }
+}
+
