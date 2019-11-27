@@ -10,15 +10,15 @@ import UIKit
 
 class BoosterViewController: UIViewController {
     
-    //    private lazy var boosterButton: UIButton = {
-    //        let button = UIButton(type: .system)
-    //        button.backgroundColor = .red
-    //        button.translatesAutoresizingMaskIntoConstraints = false
-    //        button.addTarget(self, action: #selector(boosterButtonTapped), for: .touchUpInside)
-    //        return button
-    //    }()
+    private var randomNumber: Int?
     
-    private var randomPrize = 0
+    private var leftCardIsOpen = true
+    private var centerCardIsOpen = true
+    private var rightCardIsOpen = true
+    
+    private let winImage = #imageLiteral(resourceName: "card-back-prize")
+    private let loseImage = #imageLiteral(resourceName: "card-front")
+    private let backsideImage = #imageLiteral(resourceName: "card-back")
     
     private lazy var leftBoosterButton: UIButton = {
         let button = UIButton(type: .custom)
@@ -50,6 +50,16 @@ class BoosterViewController: UIViewController {
         return button
     }()
     
+    private lazy var okButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.backgroundColor = .blue
+        button.setTitle("Продложить", for: .normal)
+        button.tintColor = .white
+        button.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
     
     private lazy var boosterStackView: UIStackView = {
         let stack = UIStackView()
@@ -61,6 +71,15 @@ class BoosterViewController: UIViewController {
         return stack
     }()
     
+    private lazy var resultLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        //        label.text = ""
+        
+        return label
+    }()
+    
     // MARK: - View lifecycle
     
     override func loadView() {
@@ -68,8 +87,9 @@ class BoosterViewController: UIViewController {
         
         view.backgroundColor = .white
         
-        //           view.addSubview(boosterButton)
         view.addSubview(boosterStackView)
+        view.addSubview(resultLabel)
+        view.addSubview(okButton)
         
         makeConstraints()
     }
@@ -77,60 +97,95 @@ class BoosterViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        generatePrizeNumber()
+        generateRandomNumber()
         
         boosterStackView.addArrangedSubview(leftBoosterButton)
         boosterStackView.addArrangedSubview(centerBoosterButton)
         boosterStackView.addArrangedSubview(rightBoosterButton)
+        
+        displayResultLabel()
     }
+    
+    // MARK: - Action
     
     @objc
     func leftButtonTapped() {
-        let button = 1
-        print("Сгенерировано: \(randomPrize)")
+        let buttonCardID = 1
+        var foregroundCardImage: UIImage?
+        var cardSideImage: UIImage?
         
-        guard button == randomPrize else {
-            print("Не угадал")
-            generatePrizeNumber()
-            return
-        }
+        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
         
-        print("Победа")
-        generatePrizeNumber()
+        cardSideImage = leftCardIsOpen ? foregroundCardImage : backsideImage
+        leftBoosterButton.setImage(cardSideImage, for: .normal)
+        
+        leftCardIsOpen = centerCardIsOpen ? false : true
+        
+        UIView.transition(with: leftBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
     }
     
     @objc
     func centerButtonTapped() {
-        let button = 2
-        print("Сгенерировано: \(randomPrize)")
+        let buttonCardID = 2
+        var foregroundCardImage: UIImage?
+        var cardSideImage: UIImage?
         
-        guard button == randomPrize else {
-            print("Не угадал")
-            generatePrizeNumber()
-            return
-        }
+        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
         
-        print("Победа")
-        generatePrizeNumber()
+        cardSideImage = centerCardIsOpen ? foregroundCardImage : backsideImage
+        centerBoosterButton.setImage(cardSideImage, for: .normal)
+        
+        centerCardIsOpen = centerCardIsOpen ? false : true
+        
+        UIView.transition(with: centerBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
     }
     
     @objc
     func rightButtonTapped() {
-        let button = 3
-        print("Сгенерировано: \(randomPrize)")
+        let buttonCardID = 3
+        var foregroundCardImage: UIImage?
+        var cardSideImage: UIImage?
         
-        guard button == randomPrize else {
-            print("Не угадал")
-            generatePrizeNumber()
-            return
-        }
+        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
         
-        print("Победа")
-        generatePrizeNumber()
+        cardSideImage = rightCardIsOpen ? foregroundCardImage : backsideImage
+        rightBoosterButton.setImage(cardSideImage, for: .normal)
+        
+        rightCardIsOpen = rightCardIsOpen ? false : true
+        
+        UIView.transition(with: rightBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
     }
     
-    private func generatePrizeNumber() {
-        randomPrize = Int.random(in: 1..<4)
+    @objc
+    func okButtonTapped() {
+        if leftCardIsOpen == false {
+            leftBoosterButton.setImage(backsideImage, for: .normal)
+            UIView.transition(with: leftBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            leftCardIsOpen = true
+        }
+        
+        if centerCardIsOpen == false {
+            centerBoosterButton.setImage(backsideImage, for: .normal)
+            UIView.transition(with: centerBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            centerCardIsOpen = true
+        }
+        
+        if rightCardIsOpen == false {
+            rightBoosterButton.setImage(backsideImage, for: .normal)
+            UIView.transition(with: rightBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+            rightCardIsOpen = true
+        }
+        
+        generateRandomNumber()
+        displayResultLabel()
+    }
+    
+    private func generateRandomNumber() {
+        randomNumber = Int.random(in: 1..<4)
+    }
+    
+    private func displayResultLabel() {
+        resultLabel.text = "Загадана карта: \(randomNumber ?? 0)"
     }
 }
 
@@ -143,6 +198,16 @@ private extension BoosterViewController {
             boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
             boosterStackView.heightAnchor.constraint(equalToConstant: 200),
             boosterStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            resultLabel.bottomAnchor.constraint(equalTo: boosterStackView.topAnchor, constant: -60),
+            resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            resultLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            okButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            okButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
+            okButton.heightAnchor.constraint(equalToConstant: 60)
         ])
     }
 }
