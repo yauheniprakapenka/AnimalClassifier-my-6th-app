@@ -40,6 +40,16 @@ class BoosterViewController: UIViewController {
         return button
     }()
     
+    private lazy var backbutton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.setImage(#imageLiteral(resourceName: "button-back"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
     private lazy var boosterStackView: UIStackView = {
         let stack = UIStackView()
         stack.translatesAutoresizingMaskIntoConstraints = false
@@ -50,14 +60,20 @@ class BoosterViewController: UIViewController {
         return stack
     }()
     
-    private lazy var animatedGradientView: AnimatedGradientView = {
-        let view = AnimatedGradientView()
+    private lazy var backgroundView: UIImageView = {
+        let view = UIImageView()
+        view.image = #imageLiteral(resourceName: "background-booster")
         view.translatesAutoresizingMaskIntoConstraints = false
-        view.direction = .up
-        view.animationValues = [(colors: ["#4e26b5", "#5629c8"], .up, .axial),
-                                (colors: ["#833ab4", "#8e0e99"], .right, .axial),
-                                (colors: ["#4e26b5", "#371b7e"], .down, .axial),
-                                (colors: ["#0f3d9b", "#410f9b"], .left, .axial)]
+        
+        return view
+    }()
+    
+    private lazy var selectCardView: UIImageView = {
+        let view = UIImageView()
+        view.image = #imageLiteral(resourceName: "selectCardView")
+        view.contentMode = .scaleAspectFit
+        view.translatesAutoresizingMaskIntoConstraints = false
+        
         return view
     }()
     
@@ -65,9 +81,21 @@ class BoosterViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
-        //        label.text = ""
         
         return label
+    }()
+    
+    private lazy var animatedGradientView: AnimatedGradientView = {
+        let view = AnimatedGradientView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        view.animationDuration = 4
+        view.direction = .up
+        view.animationValues = [(colors: ["#4e26b5", "#d50f30"], .up, .axial),
+                                (colors: ["#833ab4", "#1bd817"], .right, .axial),
+                                (colors: ["#4e26b5", "#d50f30"], .down, .axial),
+                                (colors: ["#0f3d9b", "#1bd817"], .left, .axial)]
+        
+        return view
     }()
     
     // MARK: - View lifecycle
@@ -77,10 +105,17 @@ class BoosterViewController: UIViewController {
         
         view.backgroundColor = .white
         
+        view.addSubview(backgroundView)
         view.addSubview(animatedGradientView)
         view.addSubview(boosterStackView)
         view.addSubview(resultLabel)
         view.addSubview(okButton)
+        view.addSubview(backbutton)
+        view.addSubview(selectCardView)
+        
+        boosterStackView.addArrangedSubview(leftBoosterButton)
+        boosterStackView.addArrangedSubview(centerBoosterButton)
+        boosterStackView.addArrangedSubview(rightBoosterButton)
         
         makeConstraints()
     }
@@ -90,16 +125,72 @@ class BoosterViewController: UIViewController {
         
         generateRandomNumber()
         
-        boosterStackView.addArrangedSubview(leftBoosterButton)
-        boosterStackView.addArrangedSubview(centerBoosterButton)
-        boosterStackView.addArrangedSubview(rightBoosterButton)
-        
         displayResultLabel()
+        
+        animatedGradientView.alpha = 0.5
         
         leftBoosterButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         centerBoosterButton.addTarget(self, action: #selector(centerButtonTapped), for: .touchUpInside)
         rightBoosterButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
     }
+}
+
+// MARK: - Layout
+
+private extension BoosterViewController {
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            boosterStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            boosterStackView.heightAnchor.constraint(equalToConstant: 200),
+            boosterStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            resultLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            resultLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            okButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            okButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
+            okButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            backbutton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
+            backbutton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
+            backbutton.heightAnchor.constraint(equalToConstant: 60),
+            backbutton.widthAnchor.constraint(equalToConstant: 60),
+            
+            selectCardView.bottomAnchor.constraint(equalTo: boosterStackView.topAnchor, constant: -40),
+            selectCardView.heightAnchor.constraint(equalToConstant: 70),
+            selectCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            selectCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
+        ])
+    }
+}
+
+private extension BoosterViewController {
+    
+    func makeButton(withImage image: UIImage) -> UIButton {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(image, for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
+        
+        return button
+    }
+}
+
+private extension BoosterViewController {
     
     // MARK: - Action
     
@@ -174,6 +265,11 @@ class BoosterViewController: UIViewController {
         generateRandomNumber()
         displayResultLabel()
     }
+
+    @objc
+    func backbuttonTapped() {
+        dismiss(animated: true, completion: nil)
+    }
     
     private func generateRandomNumber() {
         randomNumber = Int.random(in: 1..<4)
@@ -181,45 +277,6 @@ class BoosterViewController: UIViewController {
     
     private func displayResultLabel() {
         resultLabel.text = "Загадана карта: \(randomNumber ?? 0)"
-    }
-}
-
-// MARK: - Layout
-
-private extension BoosterViewController {
-    private func makeConstraints() {
-        NSLayoutConstraint.activate([
-            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
-            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            boosterStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            boosterStackView.heightAnchor.constraint(equalToConstant: 200),
-            boosterStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            resultLabel.bottomAnchor.constraint(equalTo: boosterStackView.topAnchor, constant: -60),
-            resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            resultLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            okButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
-            okButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
-            okButton.heightAnchor.constraint(equalToConstant: 60)
-        ])
-    }
-}
-
-private extension BoosterViewController {
-    func makeButton(withImage image: UIImage) -> UIButton {
-        let button = UIButton(type: .custom)
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.setImage(image, for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        
-        return button
     }
 }
 

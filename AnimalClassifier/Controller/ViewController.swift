@@ -251,8 +251,8 @@ private extension ViewController {
     @objc
     func boosterButtonTapped() {
         let vc = BoosterViewController()
+        vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
-        print(#function)
     }
 }
 
