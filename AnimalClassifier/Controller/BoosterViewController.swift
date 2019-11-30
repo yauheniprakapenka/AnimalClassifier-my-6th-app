@@ -33,7 +33,7 @@ class BoosterViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-        button.setTitle("Получить награду", for: .normal)
+        button.setTitle("Назад", for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(GetRewardButtonTapped), for: .touchUpInside)

@@ -41,14 +41,13 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "360-degrees"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(arButtonTapped), for: .touchUpInside)
         
         return button
     }()
     
     private lazy var boosterButton: UIButton = {
         let button = UIButton(type: .custom)
-        //        button.setImage(#imageLiteral(resourceName: "treasure"), for: .normal)
         button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(boosterButtonTapped), for: .touchUpInside)
@@ -262,6 +261,7 @@ private extension ViewController {
     }
     
     private func setBoosterButtonAvailability() {
+        
         let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] (Timer) in
             self?.boosterButton.shake()
         })
@@ -278,16 +278,18 @@ private extension ViewController {
     
     private func setBoosterLabelText() {
         
+        boosterLabel.text = "Доступно через \(GlobalSetting.boosterAvailabelTimer)"
+        
         if GlobalSetting.boosterIsActive == false {
             
-            let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+            _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
                 GlobalSetting.boosterAvailabelTimer -= 1
                 self.boosterLabel.text = "Доступно через \(GlobalSetting.boosterAvailabelTimer)"
-                self.boosterLabel.textColor = .gray
+                self.boosterLabel.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
                 
                 if GlobalSetting.boosterAvailabelTimer <= 0 {
                     GlobalSetting.boosterIsActive = true
-                    self.boosterLabel.text = "Получите награду"
+                    self.boosterLabel.text = "Получить награду"
                     self.boosterButton.setImage(#imageLiteral(resourceName: "treasure-active"), for: .normal)
                     self.setBoosterButtonAvailability()
                     self.boosterLabel.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
@@ -298,7 +300,7 @@ private extension ViewController {
     }
     
     @objc
-    func faceTrackingButtonTapped() {
+    func arButtonTapped() {
         let vc = AirplaneAndRobotViewController()
         present(vc, animated: true)
     }
