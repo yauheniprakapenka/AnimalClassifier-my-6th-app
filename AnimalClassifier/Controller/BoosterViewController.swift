@@ -19,8 +19,8 @@ class BoosterViewController: UIViewController {
     private var centerCardIsOpen = true
     private var rightCardIsOpen = true
     
-    private let winImage = #imageLiteral(resourceName: "card-back-prize")
-    private let loseImage = #imageLiteral(resourceName: "card-front")
+    private let goldImage = #imageLiteral(resourceName: "card-gold")
+    private let silverImage = #imageLiteral(resourceName: "card-silver")
     private let backsideImage = #imageLiteral(resourceName: "card-back")
     
     // MARK: - Subview
@@ -29,23 +29,14 @@ class BoosterViewController: UIViewController {
     private lazy var centerBoosterButton: UIButton = makeButton(withImage: #imageLiteral(resourceName: "card-back"))
     private lazy var rightBoosterButton: UIButton = makeButton(withImage: #imageLiteral(resourceName: "card-back"))
     
-    private lazy var okButton: UIButton = {
+    private lazy var getRewardButton: UIButton = {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.backgroundColor = .blue
-        button.setTitle("Продложить", for: .normal)
+        button.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
+        button.setTitle("Получить награду", for: .normal)
         button.tintColor = .white
-        button.addTarget(self, action: #selector(okButtonTapped), for: .touchUpInside)
-        
-        return button
-    }()
-    
-    private lazy var backbutton: UIButton = {
-        let button = UIButton(type: .custom)
-        button.setImage(#imageLiteral(resourceName: "button-back"), for: .normal)
-        button.imageView?.contentMode = .scaleAspectFit
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(backbuttonTapped), for: .touchUpInside)
+        button.layer.cornerRadius = 15
+        button.addTarget(self, action: #selector(GetRewardButtonTapped), for: .touchUpInside)
         
         return button
     }()
@@ -77,10 +68,21 @@ class BoosterViewController: UIViewController {
         return view
     }()
     
-    private lazy var resultLabel: UILabel = {
+    private lazy var randomNumberForDebugLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .center
+        
+        return label
+    }()
+    
+    private lazy var moneyLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .right
+        label.text = "\(GlobalSetting.money)"
+        label.font = UIFont.boldSystemFont(ofSize: 30)
+        label.textColor = .white
         
         return label
     }()
@@ -108,10 +110,10 @@ class BoosterViewController: UIViewController {
         view.addSubview(backgroundView)
         view.addSubview(animatedGradientView)
         view.addSubview(boosterStackView)
-        view.addSubview(resultLabel)
-        view.addSubview(okButton)
-        view.addSubview(backbutton)
+        view.addSubview(randomNumberForDebugLabel)
+        view.addSubview(getRewardButton)
         view.addSubview(selectCardView)
+        view.addSubview(moneyLabel)
         
         boosterStackView.addArrangedSubview(leftBoosterButton)
         boosterStackView.addArrangedSubview(centerBoosterButton)
@@ -128,53 +130,11 @@ class BoosterViewController: UIViewController {
         displayResultLabel()
         
         animatedGradientView.alpha = 0.5
+        getRewardButton.alpha = 0
         
         leftBoosterButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
         centerBoosterButton.addTarget(self, action: #selector(centerButtonTapped), for: .touchUpInside)
         rightBoosterButton.addTarget(self, action: #selector(rightButtonTapped), for: .touchUpInside)
-    }
-}
-
-// MARK: - Layout
-
-private extension BoosterViewController {
-    private func makeConstraints() {
-        NSLayoutConstraint.activate([
-            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
-            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
-            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            
-            boosterStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            boosterStackView.heightAnchor.constraint(equalToConstant: 200),
-            boosterStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            
-            resultLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
-            resultLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            resultLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
-            resultLabel.heightAnchor.constraint(equalToConstant: 20),
-            
-            okButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
-            okButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
-            okButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
-            okButton.heightAnchor.constraint(equalToConstant: 60),
-            
-            backbutton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 30),
-            backbutton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 30),
-            backbutton.heightAnchor.constraint(equalToConstant: 60),
-            backbutton.widthAnchor.constraint(equalToConstant: 60),
-            
-            selectCardView.bottomAnchor.constraint(equalTo: boosterStackView.topAnchor, constant: -40),
-            selectCardView.heightAnchor.constraint(equalToConstant: 70),
-            selectCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
-            selectCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20)
-        ])
     }
 }
 
@@ -200,7 +160,9 @@ private extension BoosterViewController {
         var foregroundCardImage: UIImage?
         var cardSideImage: UIImage?
         
-        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
+        foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
+        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.money)"
         
         cardSideImage = leftCardIsOpen ? foregroundCardImage : backsideImage
         leftBoosterButton.setImage(cardSideImage, for: .normal)
@@ -208,6 +170,11 @@ private extension BoosterViewController {
         leftCardIsOpen = centerCardIsOpen ? false : true
         
         UIView.transition(with: leftBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+        
+        GlobalSetting.boosterIsActive = false
+        
+        disableBoosterButton()
+        getRewardButton.alpha = 1
     }
     
     @objc
@@ -216,7 +183,9 @@ private extension BoosterViewController {
         var foregroundCardImage: UIImage?
         var cardSideImage: UIImage?
         
-        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
+        foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
+        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.money)"
         
         cardSideImage = centerCardIsOpen ? foregroundCardImage : backsideImage
         centerBoosterButton.setImage(cardSideImage, for: .normal)
@@ -224,6 +193,11 @@ private extension BoosterViewController {
         centerCardIsOpen = centerCardIsOpen ? false : true
         
         UIView.transition(with: centerBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+        
+        GlobalSetting.boosterIsActive = false
+        
+        disableBoosterButton()
+        getRewardButton.alpha = 1
     }
     
     @objc
@@ -232,7 +206,9 @@ private extension BoosterViewController {
         var foregroundCardImage: UIImage?
         var cardSideImage: UIImage?
         
-        foregroundCardImage = buttonCardID == randomNumber ? winImage : loseImage
+        foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
+        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.money)"
         
         cardSideImage = rightCardIsOpen ? foregroundCardImage : backsideImage
         rightBoosterButton.setImage(cardSideImage, for: .normal)
@@ -240,43 +216,78 @@ private extension BoosterViewController {
         rightCardIsOpen = rightCardIsOpen ? false : true
         
         UIView.transition(with: rightBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
+        
+        GlobalSetting.boosterIsActive = false
+        
+        disableBoosterButton()
+        getRewardButton.alpha = 1
     }
     
     @objc
-    func okButtonTapped() {
-        if leftCardIsOpen == false {
-            leftBoosterButton.setImage(backsideImage, for: .normal)
-            UIView.transition(with: leftBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-            leftCardIsOpen = true
-        }
+    func GetRewardButtonTapped() {
         
-        if centerCardIsOpen == false {
-            centerBoosterButton.setImage(backsideImage, for: .normal)
-            UIView.transition(with: centerBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-            centerCardIsOpen = true
-        }
+        GlobalSetting.boosterIsActive = false
+        GlobalSetting.boosterAvailabelTimer = 5
         
-        if rightCardIsOpen == false {
-            rightBoosterButton.setImage(backsideImage, for: .normal)
-            UIView.transition(with: rightBoosterButton, duration: 0.3, options: .transitionFlipFromLeft, animations: nil, completion: nil)
-            rightCardIsOpen = true
-        }
+        let vc = ViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true)
         
-        generateRandomNumber()
         displayResultLabel()
     }
 
-    @objc
-    func backbuttonTapped() {
-        dismiss(animated: true, completion: nil)
-    }
-    
     private func generateRandomNumber() {
         randomNumber = Int.random(in: 1..<4)
     }
     
     private func displayResultLabel() {
-        resultLabel.text = "Загадана карта: \(randomNumber ?? 0)"
+        randomNumberForDebugLabel.text = GlobalSetting.debugMode ? "Загадана карта: \(randomNumber ?? 0)" : ""
+    }
+    
+    private func disableBoosterButton() {
+        leftBoosterButton.isUserInteractionEnabled = false
+        centerBoosterButton.isUserInteractionEnabled = false
+        rightBoosterButton.isUserInteractionEnabled = false
     }
 }
 
+// MARK: - Layout
+
+private extension BoosterViewController {
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            backgroundView.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            boosterStackView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            boosterStackView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            boosterStackView.heightAnchor.constraint(equalToConstant: 200),
+            boosterStackView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            
+            randomNumberForDebugLabel.topAnchor.constraint(equalTo: view.topAnchor, constant: 60),
+            randomNumberForDebugLabel.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            randomNumberForDebugLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            randomNumberForDebugLabel.heightAnchor.constraint(equalToConstant: 20),
+            
+            getRewardButton.bottomAnchor.constraint(equalTo: view.bottomAnchor, constant: -60),
+            getRewardButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 80),
+            getRewardButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -80),
+            getRewardButton.heightAnchor.constraint(equalToConstant: 60),
+            
+            selectCardView.bottomAnchor.constraint(equalTo: boosterStackView.topAnchor, constant: -40),
+            selectCardView.heightAnchor.constraint(equalToConstant: 70),
+            selectCardView.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 20),
+            selectCardView.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+            
+            moneyLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            moneyLabel.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -20),
+        ])
+    }
+}

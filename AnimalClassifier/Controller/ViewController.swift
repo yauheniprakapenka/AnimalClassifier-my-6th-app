@@ -33,6 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
@@ -41,14 +42,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         button.setImage(#imageLiteral(resourceName: "360-degrees"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
     private lazy var boosterButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.backgroundColor = .red
+        let button = UIButton(type: .custom)
+        //        button.setImage(#imageLiteral(resourceName: "treasure"), for: .normal)
+        button.imageView?.contentMode = .scaleAspectFit
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(boosterButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
@@ -60,7 +64,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         return image
     }()
-
+    
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -79,6 +83,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
         label.text = "Об авторе"
+        
+        return label
+    }()
+    
+    private lazy var boosterLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
         
         return label
     }()
@@ -121,6 +135,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(aboutLabel)
         view.addSubview(addLabel)
         view.addSubview(boosterButton)
+        view.addSubview(boosterLabel)
         
         makeConstraints()
     }
@@ -132,6 +147,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         resultLabel.alpha = 0
         setupVision()
+        
+        setBoosterButtonAvailability()
+        
+        setBoosterLabelText()
     }
     
     private func setupVision() {
@@ -159,7 +178,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     if detectionString.isEmpty {
                         detectionString = "Это не кот и не собака"
                     }
-
+                    
                     self.resultLabel.text = detectionString
                     self.resultLabel.alpha = 1
                 }
@@ -242,6 +261,42 @@ private extension ViewController {
         present(vc, animated: true)
     }
     
+    private func setBoosterButtonAvailability() {
+        let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] (Timer) in
+            self?.boosterButton.shake()
+        })
+        
+        if GlobalSetting.boosterIsActive {
+            boosterButton.setImage(#imageLiteral(resourceName: "treasure-active"), for: .normal)
+            boosterButton.isUserInteractionEnabled = true
+        } else {
+            boosterButton.setImage(#imageLiteral(resourceName: "treasuse-inactive"), for: .normal)
+            boosterButton.isUserInteractionEnabled = false
+            timer.invalidate()
+        }
+    }
+    
+    private func setBoosterLabelText() {
+        
+        if GlobalSetting.boosterIsActive == false {
+            
+            let timer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+                GlobalSetting.boosterAvailabelTimer -= 1
+                self.boosterLabel.text = "Доступно через \(GlobalSetting.boosterAvailabelTimer)"
+                self.boosterLabel.textColor = .gray
+                
+                if GlobalSetting.boosterAvailabelTimer <= 0 {
+                    GlobalSetting.boosterIsActive = true
+                    self.boosterLabel.text = "Получите награду"
+                    self.boosterButton.setImage(#imageLiteral(resourceName: "treasure-active"), for: .normal)
+                    self.setBoosterButtonAvailability()
+                    self.boosterLabel.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+                    timer.invalidate()
+                }
+            })
+        }
+    }
+    
     @objc
     func faceTrackingButtonTapped() {
         let vc = AirplaneAndRobotViewController()
@@ -300,10 +355,15 @@ private extension ViewController {
             addLabel.heightAnchor.constraint(equalToConstant: 16),
             addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4),
             
-            boosterButton.bottomAnchor.constraint(equalTo: addButton.topAnchor, constant: -30),
-            boosterButton.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            boosterButton.widthAnchor.constraint(equalToConstant: 80),
+            boosterButton.bottomAnchor.constraint(equalTo: addButton.bottomAnchor),
+            boosterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            boosterButton.widthAnchor.constraint(equalToConstant: 70),
             boosterButton.heightAnchor.constraint(equalTo: boosterButton.widthAnchor),
+            
+            boosterLabel.topAnchor.constraint(equalTo: boosterButton.bottomAnchor),
+            boosterLabel.widthAnchor.constraint(equalTo: boosterButton.widthAnchor, constant: 40),
+            boosterLabel.heightAnchor.constraint(equalToConstant: 16),
+            boosterLabel.leadingAnchor.constraint(equalTo: boosterButton.leadingAnchor, constant: -20)
         ])
     }
 }
