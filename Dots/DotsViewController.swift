@@ -34,15 +34,23 @@ class DotsViewController: UIViewController {
         return label
     }()
     
+    private lazy var backgroundImage: UIImageView = {
+        let imageView = UIImageView()
+        imageView.image = #imageLiteral(resourceName: "background-dots")
+        imageView.contentMode = .scaleToFill
+        imageView.translatesAutoresizingMaskIntoConstraints = false
+        
+        return imageView
+    }()
+    
     // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .darkGray
-        
         renderedLines.translatesAutoresizingMaskIntoConstraints = false
         
+        view.addSubview(backgroundImage)
         view.addSubview(renderedLines)
         view.addSubview(scoreLabel)
         
@@ -198,6 +206,11 @@ private extension DotsViewController {
 private extension DotsViewController {
     private func makeConstraints() {
         NSLayoutConstraint.activate([
+            backgroundImage.topAnchor.constraint(equalTo: view.topAnchor),
+            backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
             renderedLines.topAnchor.constraint(equalTo: view.topAnchor),
             renderedLines.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             renderedLines.leadingAnchor.constraint(equalTo: view.leadingAnchor),
