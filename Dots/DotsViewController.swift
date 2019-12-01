@@ -9,45 +9,52 @@
 import UIKit
 
 class DotsViewController: UIViewController {
+    
+    // MARK: - Properties
+    
     var currentLevel = 0
     var connections = [ConnectionView]()
     let renderedLines = UIImageView()
     
-    var scoreLabel = UILabel()
-    
     var score = 0 {
         didSet {
-            scoreLabel.text = "SCORE: \(score)"
+            scoreLabel.text = "Счет: \(score)"
         }
     }
+    
+    // MARK: - Subview
+    
+    private lazy var scoreLabel: UILabel = {
+        let label = UILabel()
+        label.text = "Счет: \(score)"
+        label.textColor = .cyan
+        label.font = UIFont.boldSystemFont(ofSize: 24)
+        label.translatesAutoresizingMaskIntoConstraints = false
+        
+        return label
+    }()
+    
+    // MARK: - View lifecycle
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        renderedLines.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(renderedLines)
+        view.backgroundColor = .darkGray
         
-        score = 0
-        scoreLabel.textColor = .cyan
-        scoreLabel.font = UIFont.boldSystemFont(ofSize: 24)
-        scoreLabel.translatesAutoresizingMaskIntoConstraints = false
+        renderedLines.translatesAutoresizingMaskIntoConstraints = false
+        
+        view.addSubview(renderedLines)
         view.addSubview(scoreLabel)
         
-        NSLayoutConstraint.activate([
-            renderedLines.topAnchor.constraint(equalTo: view.topAnchor),
-            renderedLines.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            renderedLines.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            renderedLines.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            
-            scoreLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
-            scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
-        ])
-        
-        view.backgroundColor = .darkGray
+        makeConstraints()
         
         levelUp()
     }
-    
+}
+
+// MARK: - Action
+
+private extension DotsViewController {
     private func levelUp() {
         currentLevel += 1
         
@@ -185,3 +192,20 @@ class DotsViewController: UIViewController {
         }
     }
 }
+
+// MARK: - Layout
+
+private extension DotsViewController {
+    private func makeConstraints() {
+        NSLayoutConstraint.activate([
+            renderedLines.topAnchor.constraint(equalTo: view.topAnchor),
+            renderedLines.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            renderedLines.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            renderedLines.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            
+            scoreLabel.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -20),
+            scoreLabel.centerXAnchor.constraint(equalTo: view.centerXAnchor)
+        ])
+    }
+}
+       
