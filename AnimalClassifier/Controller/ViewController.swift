@@ -55,6 +55,15 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return button
     }()
     
+    private lazy var dotsButton: UIButton = {
+        let button = UIButton()
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(dotsButtonTapped), for: .touchUpInside)
+        button.backgroundColor = .red
+        
+        return button
+    }()
+    
     private lazy var selectedImageView: UIImageView = {
         let image = UIImageView()
         image.translatesAutoresizingMaskIntoConstraints = false
@@ -135,6 +144,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(addLabel)
         view.addSubview(boosterButton)
         view.addSubview(boosterLabel)
+        view.addSubview(dotsButton)
         
         makeConstraints()
     }
@@ -237,6 +247,13 @@ private extension ViewController {
         }))
         alert.addAction(UIAlertAction(title: "Отменить", style: .cancel, handler: nil))
         present(alert, animated: true)
+    }
+    
+    @objc
+    func dotsButtonTapped() {
+        let vc = DotsViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true)
     }
     
     func libraryButtonTapped() {
@@ -365,7 +382,12 @@ private extension ViewController {
             boosterLabel.topAnchor.constraint(equalTo: boosterButton.bottomAnchor),
             boosterLabel.widthAnchor.constraint(equalTo: boosterButton.widthAnchor, constant: 40),
             boosterLabel.heightAnchor.constraint(equalToConstant: 16),
-            boosterLabel.leadingAnchor.constraint(equalTo: boosterButton.leadingAnchor, constant: -20)
+            boosterLabel.leadingAnchor.constraint(equalTo: boosterButton.leadingAnchor, constant: -20),
+            
+            dotsButton.bottomAnchor.constraint(equalTo: boosterButton.topAnchor, constant: -40),
+            dotsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            dotsButton.widthAnchor.constraint(equalToConstant: 70),
+            dotsButton.heightAnchor.constraint(equalTo: dotsButton.widthAnchor)
         ])
     }
 }

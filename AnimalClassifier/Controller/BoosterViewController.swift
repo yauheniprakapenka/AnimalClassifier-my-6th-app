@@ -87,18 +87,7 @@ class BoosterViewController: UIViewController {
         return label
     }()
     
-    private lazy var animatedGradientView: AnimatedGradientView = {
-        let view = AnimatedGradientView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        view.animationDuration = 4
-        view.direction = .up
-        view.animationValues = [(colors: ["#4e26b5", "#d50f30"], .up, .axial),
-                                (colors: ["#833ab4", "#1bd817"], .right, .axial),
-                                (colors: ["#4e26b5", "#d50f30"], .down, .axial),
-                                (colors: ["#0f3d9b", "#1bd817"], .left, .axial)]
-        
-        return view
-    }()
+    private lazy var animatedGradientView: AnimatedGradientView = makeAnimatedGradient(alpha: 0.5)
     
     // MARK: - View lifecycle
     
@@ -129,7 +118,6 @@ class BoosterViewController: UIViewController {
         
         displayResultLabel()
         
-        animatedGradientView.alpha = 0.5
         getRewardButton.alpha = 0
         
         leftBoosterButton.addTarget(self, action: #selector(leftButtonTapped), for: .touchUpInside)
@@ -291,3 +279,18 @@ private extension BoosterViewController {
         ])
     }
 }
+
+//extension UIViewController {
+//    func makeAnimatedGradient() -> AnimatedGradientView {
+//        let view = AnimatedGradientView()
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        view.animationDuration = 4
+//        view.direction = .up
+//        view.animationValues = [(colors: ["#4e26b5", "#d50f30"], .up, .axial),
+//                                (colors: ["#833ab4", "#1bd817"], .right, .axial),
+//                                (colors: ["#4e26b5", "#d50f30"], .down, .axial),
+//                                (colors: ["#0f3d9b", "#1bd817"], .left, .axial)]
+//        
+//        return view
+//    }
+//}

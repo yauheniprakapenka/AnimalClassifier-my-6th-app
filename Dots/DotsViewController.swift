@@ -7,6 +7,7 @@
 //
 
 import UIKit
+import AnimatedGradientView
 
 class DotsViewController: UIViewController {
     
@@ -43,20 +44,37 @@ class DotsViewController: UIViewController {
         return imageView
     }()
     
+    private lazy var animatedGradientView: AnimatedGradientView = makeAnimatedGradient(alpha: 0.3)
+    
     // MARK: - View lifecycle
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let value = UIInterfaceOrientation.landscapeLeft.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        
         renderedLines.translatesAutoresizingMaskIntoConstraints = false
         
         view.addSubview(backgroundImage)
+        view.addSubview(animatedGradientView)
         view.addSubview(renderedLines)
         view.addSubview(scoreLabel)
         
         makeConstraints()
         
-        levelUp()
+        _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: false, block: { [weak self] _ in
+            self?.levelUp()
+        })
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .landscapeLeft
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
     }
 }
 
@@ -210,6 +228,11 @@ private extension DotsViewController {
             backgroundImage.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             backgroundImage.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             backgroundImage.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            
+            animatedGradientView.topAnchor.constraint(equalTo: view.topAnchor),
+            animatedGradientView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            animatedGradientView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            animatedGradientView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
             
             renderedLines.topAnchor.constraint(equalTo: view.topAnchor),
             renderedLines.bottomAnchor.constraint(equalTo: view.bottomAnchor),
