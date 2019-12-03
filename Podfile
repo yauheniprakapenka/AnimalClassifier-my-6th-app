@@ -7,5 +7,6 @@ target 'AnimalClassifier' do
 
   # Pods for AnimalClassifier
   pod 'SDWebImage', '~> 5.0'
+  pod 'AnimatedGradientView'
 
 end

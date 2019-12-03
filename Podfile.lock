@@ -1,18 +1,22 @@
 PODS:
+  - AnimatedGradientView (2.1.0)
   - SDWebImage (5.3.1):
     - SDWebImage/Core (= 5.3.1)
   - SDWebImage/Core (5.3.1)
 
 DEPENDENCIES:
+  - AnimatedGradientView
   - SDWebImage (~> 5.0)
 
 SPEC REPOS:
   trunk:
+    - AnimatedGradientView
     - SDWebImage
 
 SPEC CHECKSUMS:
+  AnimatedGradientView: 12f1cff220a83a1783eca3386d6dbded737d6aeb
   SDWebImage: 7137d57385fb632129838c1e6ab9528a22c666cc
 
-PODFILE CHECKSUM: de79081af6daf295b6ed7127d45a7fa788480208
+PODFILE CHECKSUM: b9c0559a7696603241c1c8b39cb819e9da8c14a1
 
 COCOAPODS: 1.8.4

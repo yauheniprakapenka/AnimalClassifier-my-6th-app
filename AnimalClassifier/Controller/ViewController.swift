@@ -33,6 +33,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         button.setImage(#imageLiteral(resourceName: "plus-button"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
@@ -40,7 +41,27 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         let button = UIButton(type: .custom)
         button.setImage(#imageLiteral(resourceName: "360-degrees"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(faceTrackingButtonTapped), for: .touchUpInside)
+        button.addTarget(self, action: #selector(arButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var boosterButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.imageView?.contentMode = .scaleAspectFit
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(boosterButtonTapped), for: .touchUpInside)
+        
+        return button
+    }()
+    
+    private lazy var dotsButton: UIButton = {
+        let button = UIButton(type: .custom)
+        button.translatesAutoresizingMaskIntoConstraints = false
+        button.setImage(#imageLiteral(resourceName: "bag-active"), for: .normal)
+        button.imageView?.contentMode = .scaleToFill
+        button.addTarget(self, action: #selector(dotsButtonTapped), for: .touchUpInside)
+        
         return button
     }()
     
@@ -52,7 +73,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         
         return image
     }()
-
+    
     private lazy var resultLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -75,6 +96,16 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         return label
     }()
     
+    private lazy var boosterLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        
+        return label
+    }()
+    
     private lazy var addLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -82,6 +113,17 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         label.font = UIFont.systemFont(ofSize: 12, weight: .light)
         label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
         label.text = "Добавить фото"
+        
+        return label
+    }()
+    
+    private lazy var dotsLabel: UILabel = {
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.textAlignment = .center
+        label.font = UIFont.systemFont(ofSize: 12, weight: .light)
+        label.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+        label.text = "Выполнить задание"
         
         return label
     }()
@@ -112,6 +154,10 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
         view.addSubview(arButton)
         view.addSubview(aboutLabel)
         view.addSubview(addLabel)
+        view.addSubview(boosterButton)
+        view.addSubview(boosterLabel)
+        view.addSubview(dotsButton)
+        view.addSubview(dotsLabel)
         
         makeConstraints()
     }
@@ -121,8 +167,23 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        let value = UIInterfaceOrientation.portrait.rawValue
+        UIDevice.current.setValue(value, forKey: "orientation")
+        
         resultLabel.alpha = 0
         setupVision()
+        
+        setBoosterButtonAvailability()
+        
+        setBoosterLabelText()
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        return .portrait
+    }
+    
+    override var shouldAutorotate: Bool {
+        return true
     }
     
     private func setupVision() {
@@ -150,7 +211,7 @@ class ViewController: UIViewController, UIImagePickerControllerDelegate, UINavig
                     if detectionString.isEmpty {
                         detectionString = "Это не кот и не собака"
                     }
-
+                    
                     self.resultLabel.text = detectionString
                     self.resultLabel.alpha = 1
                 }
@@ -212,6 +273,13 @@ private extension ViewController {
         present(alert, animated: true)
     }
     
+    @objc
+    func dotsButtonTapped() {
+        let vc = DotsViewController()
+        vc.modalPresentationStyle = .overFullScreen
+        present(vc, animated: true)
+    }
+    
     func libraryButtonTapped() {
         let imagePicker = UIImagePickerController()
         imagePicker.sourceType = .photoLibrary
@@ -233,9 +301,55 @@ private extension ViewController {
         present(vc, animated: true)
     }
     
+    private func setBoosterButtonAvailability() {
+        
+        let timer = Timer.scheduledTimer(withTimeInterval: 3, repeats: true, block: { [weak self] (Timer) in
+            self?.boosterButton.shake()
+        })
+        
+        if GlobalSetting.boosterIsActive {
+            boosterButton.setImage(#imageLiteral(resourceName: "treasure-active"), for: .normal)
+            boosterButton.isUserInteractionEnabled = true
+        } else {
+            boosterButton.setImage(#imageLiteral(resourceName: "treasuse-inactive"), for: .normal)
+            boosterButton.isUserInteractionEnabled = false
+            timer.invalidate()
+        }
+    }
+    
+    private func setBoosterLabelText() {
+        
+        boosterLabel.text = "Доступно через \(GlobalSetting.boosterTimerLeft)"
+        
+        if GlobalSetting.boosterIsActive == false {
+            
+            _ = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { timer in
+                GlobalSetting.boosterTimerLeft -= 1
+                self.boosterLabel.text = "Доступно через \(GlobalSetting.boosterTimerLeft)"
+                self.boosterLabel.textColor = #colorLiteral(red: 0.08396864682, green: 0.08843047172, blue: 0.2530170083, alpha: 1)
+                
+                if GlobalSetting.boosterTimerLeft <= 0 {
+                    GlobalSetting.boosterIsActive = true
+                    self.boosterLabel.text = "Получить награду"
+                    self.boosterButton.setImage(#imageLiteral(resourceName: "treasure-active"), for: .normal)
+                    self.setBoosterButtonAvailability()
+                    self.boosterLabel.textColor = #colorLiteral(red: 0.8078431487, green: 0.02745098062, blue: 0.3333333433, alpha: 1)
+                    timer.invalidate()
+                }
+            })
+        }
+    }
+    
     @objc
-    func faceTrackingButtonTapped() {
+    func arButtonTapped() {
         let vc = AirplaneAndRobotViewController()
+        present(vc, animated: true)
+    }
+    
+    @objc
+    func boosterButtonTapped() {
+        let vc = BoosterViewController()
+        vc.modalPresentationStyle = .overFullScreen
         present(vc, animated: true)
     }
 }
@@ -282,7 +396,27 @@ private extension ViewController {
             
             addLabel.topAnchor.constraint(equalTo: addButton.bottomAnchor, constant: 10),
             addLabel.heightAnchor.constraint(equalToConstant: 16),
-            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4)
+            addLabel.leadingAnchor.constraint(equalTo: addButton.leadingAnchor, constant: -4),
+            
+            boosterButton.bottomAnchor.constraint(equalTo: addButton.bottomAnchor),
+            boosterButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            boosterButton.widthAnchor.constraint(equalToConstant: 70),
+            boosterButton.heightAnchor.constraint(equalTo: boosterButton.widthAnchor),
+            
+            boosterLabel.topAnchor.constraint(equalTo: boosterButton.bottomAnchor),
+            boosterLabel.widthAnchor.constraint(equalTo: boosterButton.widthAnchor, constant: 40),
+            boosterLabel.heightAnchor.constraint(equalToConstant: 16),
+            boosterLabel.leadingAnchor.constraint(equalTo: boosterButton.leadingAnchor, constant: -20),
+            
+            dotsButton.bottomAnchor.constraint(equalTo: boosterButton.topAnchor, constant: -40),
+            dotsButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 40),
+            dotsButton.widthAnchor.constraint(equalToConstant: 75),
+            dotsButton.heightAnchor.constraint(equalTo: dotsButton.widthAnchor),
+            
+            dotsLabel.topAnchor.constraint(equalTo: dotsButton.bottomAnchor, constant: 10),
+            dotsLabel.heightAnchor.constraint(equalToConstant: 16),
+            dotsLabel.leadingAnchor.constraint(equalTo: dotsButton.leadingAnchor, constant: -30),
+            dotsLabel.trailingAnchor.constraint(equalTo: dotsButton.trailingAnchor, constant: 30)
         ])
     }
 }

@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3E1856602391B40B00907678 /* Shake.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E18565F2391B40B00907678 /* Shake.swift */; };
+		3E18566323924DD400907678 /* GlobalSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E18566223924DD400907678 /* GlobalSetting.swift */; };
+		3E3A71F9238C6435000C17C2 /* BoosterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */; };
+		3E665E152392FAC8004C0A0B /* DotsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E665E142392FAC8004C0A0B /* DotsViewController.swift */; };
+		3E731C1F2393041300C0C639 /* ConnectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E731C1E2393041300C0C639 /* ConnectionView.swift */; };
+		3E731C232393F1D000C0C639 /* MakeGradient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3E731C222393F1D000C0C639 /* MakeGradient.swift */; };
 		3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */; };
 		3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */; };
 		3ECC8A47237F1EDC007C2F6A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3ECC8A46237F1EDC007C2F6A /* ViewController.swift */; };
@@ -26,6 +32,12 @@
 /* Begin PBXFileReference section */
 		0D059FF3C19F5369840596F0 /* Pods_AnimalClassifier.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_AnimalClassifier.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2BB7A6B922E589DEFBD7EC9B /* Pods-AnimalClassifier.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-AnimalClassifier.debug.xcconfig"; path = "Target Support Files/Pods-AnimalClassifier/Pods-AnimalClassifier.debug.xcconfig"; sourceTree = "<group>"; };
+		3E18565F2391B40B00907678 /* Shake.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Shake.swift; sourceTree = "<group>"; };
+		3E18566223924DD400907678 /* GlobalSetting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlobalSetting.swift; sourceTree = "<group>"; };
+		3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BoosterViewController.swift; sourceTree = "<group>"; };
+		3E665E142392FAC8004C0A0B /* DotsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DotsViewController.swift; sourceTree = "<group>"; };
+		3E731C1E2393041300C0C639 /* ConnectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConnectionView.swift; sourceTree = "<group>"; };
+		3E731C222393F1D000C0C639 /* MakeGradient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MakeGradient.swift; sourceTree = "<group>"; };
 		3ECC8A3F237F1EDC007C2F6A /* AnimalClassifier.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = AnimalClassifier.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		3ECC8A42237F1EDC007C2F6A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		3ECC8A44237F1EDC007C2F6A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -65,6 +77,32 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		3E18565E2391B3FA00907678 /* Extension */ = {
+			isa = PBXGroup;
+			children = (
+				3E18565F2391B40B00907678 /* Shake.swift */,
+				3E731C222393F1D000C0C639 /* MakeGradient.swift */,
+			);
+			path = Extension;
+			sourceTree = "<group>";
+		};
+		3E18566123924DAC00907678 /* Utilities */ = {
+			isa = PBXGroup;
+			children = (
+				3E18566223924DD400907678 /* GlobalSetting.swift */,
+			);
+			path = Utilities;
+			sourceTree = "<group>";
+		};
+		3E665E132392FAA7004C0A0B /* Dots */ = {
+			isa = PBXGroup;
+			children = (
+				3E665E142392FAC8004C0A0B /* DotsViewController.swift */,
+				3E731C1E2393041300C0C639 /* ConnectionView.swift */,
+			);
+			path = Dots;
+			sourceTree = "<group>";
+		};
 		3EB2BA42238A974200DE8976 /* AirplaneAndRobot */ = {
 			isa = PBXGroup;
 			children = (
@@ -77,6 +115,7 @@
 		3ECC8A36237F1EDC007C2F6A = {
 			isa = PBXGroup;
 			children = (
+				3E665E132392FAA7004C0A0B /* Dots */,
 				3EF7A0552389203200F8BFAE /* AugmentedReality */,
 				3ECC8A41237F1EDC007C2F6A /* AnimalClassifier */,
 				3ECC8A40237F1EDC007C2F6A /* Products */,
@@ -96,6 +135,8 @@
 		3ECC8A41237F1EDC007C2F6A /* AnimalClassifier */ = {
 			isa = PBXGroup;
 			children = (
+				3E18566123924DAC00907678 /* Utilities */,
+				3E18565E2391B3FA00907678 /* Extension */,
 				3ECC8A6623800327007C2F6A /* View */,
 				3ECC8A59237F32D5007C2F6A /* Controller */,
 				3ECC8A5E237FF798007C2F6A /* Network */,
@@ -122,6 +163,7 @@
 			children = (
 				3ECC8A46237F1EDC007C2F6A /* ViewController.swift */,
 				3ECC8A5A237FDB13007C2F6A /* PhotoCollectionViewController.swift */,
+				3E3A71F8238C6435000C17C2 /* BoosterViewController.swift */,
 			);
 			path = Controller;
 			sourceTree = "<group>";
@@ -283,15 +325,21 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3E18566323924DD400907678 /* GlobalSetting.swift in Sources */,
+				3E731C1F2393041300C0C639 /* ConnectionView.swift in Sources */,
 				3EF7A088238992B800F8BFAE /* AirplaneAndRobotViewController.swift in Sources */,
 				3ECC8A62237FF84F007C2F6A /* NetworkDataFetcher.swift in Sources */,
+				3E1856602391B40B00907678 /* Shake.swift in Sources */,
 				3EF7A0892389956300F8BFAE /* RoboMan.rcproject in Sources */,
 				3ECC8A47237F1EDC007C2F6A /* ViewController.swift in Sources */,
+				3E665E152392FAC8004C0A0B /* DotsViewController.swift in Sources */,
 				3ECC8A43237F1EDC007C2F6A /* AppDelegate.swift in Sources */,
+				3E731C232393F1D000C0C639 /* MakeGradient.swift in Sources */,
 				3ECC8A64237FF894007C2F6A /* SearchResultModel.swift in Sources */,
 				3ECC8A6823800364007C2F6A /* PhotosCell.swift in Sources */,
 				3ECC8A60237FF7DC007C2F6A /* UnsplashNetworkService.swift in Sources */,
 				3ECC8A45237F1EDC007C2F6A /* SceneDelegate.swift in Sources */,
+				3E3A71F9238C6435000C17C2 /* BoosterViewController.swift in Sources */,
 				3ECC8A5B237FDB13007C2F6A /* PhotoCollectionViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

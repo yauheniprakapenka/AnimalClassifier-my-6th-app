@@ -11,7 +11,7 @@ import RealityKit
 
 class AirplaneAndRobotViewController: UIViewController {
     
-    // MARK: - Input
+    // MARK: - Properties
     
     var roboAnchor: RoboMan.RoboAdventure!
     

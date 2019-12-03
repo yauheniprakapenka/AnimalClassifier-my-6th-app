@@ -10,7 +10,7 @@ import UIKit
 
 class PhotoCollectionViewController: UICollectionViewController {
     
-    // MARK: - Input
+    // MARK: - Properties
     
     let networkDataFetcher = NetworkDataFetcher()
     private var timer: Timer?
