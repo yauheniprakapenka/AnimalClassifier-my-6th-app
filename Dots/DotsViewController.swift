@@ -19,7 +19,7 @@ class DotsViewController: UIViewController {
     
     var score = 0 {
         didSet {
-            scoreLabel.text = "Счет: \(score)"
+            scoreLabel.text = "Собрано: \(score) из \(GlobalSetting.needDotsScoreToWin)"
         }
     }
     
@@ -27,7 +27,7 @@ class DotsViewController: UIViewController {
     
     private lazy var scoreLabel: UILabel = {
         let label = UILabel()
-        label.text = "Счет: \(score)"
+        label.text = "Собрано: \(score) из \(GlobalSetting.needDotsScoreToWin)"
         label.textColor = .cyan
         label.font = UIFont.boldSystemFont(ofSize: 24)
         label.translatesAutoresizingMaskIntoConstraints = false
@@ -47,7 +47,6 @@ class DotsViewController: UIViewController {
     private lazy var animatedGradientView: AnimatedGradientView = makeAnimatedGradient(alpha: 0.3)
     
     // MARK: - View lifecycle
-    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -120,8 +119,8 @@ private extension DotsViewController {
     }
     
     private func place(_ connection: ConnectionView) {
-        let randomX = CGFloat.random(in: 20...view.bounds.maxX - 20)
-        let randomY = CGFloat.random(in: 50...view.bounds.maxY - 50)
+        let randomX = CGFloat.random(in: 40...view.bounds.maxX - 40)
+        let randomY = CGFloat.random(in: 70...view.bounds.maxY - 70)
         connection.center = CGPoint(x: randomX, y: randomY)
     }
     
@@ -199,6 +198,12 @@ private extension DotsViewController {
         if levelClear() {
             score += currentLevel + 2
             
+            guard score < GlobalSetting.needDotsScoreToWin else {
+                showAlert()
+                
+                return
+            }
+            
             view.isUserInteractionEnabled = false
             
             UIView.animate(withDuration: 0.5, delay: 1, options: [], animations: {
@@ -216,6 +221,19 @@ private extension DotsViewController {
             // Все еще играем на уровне
             score -= 1
         }
+    }
+    
+    private func showAlert() {
+        let alert = UIAlertController(title: "Уровень пройден!", message: "Комната внось чистая и светлая.\nПолучено \(GlobalSetting.givePointsForWin) очков.", preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "Продолжить", style: .default, handler: { action in
+            GlobalSetting.profileMoney = GlobalSetting.profileMoney + GlobalSetting.givePointsForWin
+            let vc = ViewController()
+            vc.modalPresentationStyle = .overFullScreen
+            self.present(vc, animated: true)
+        }))
+        
+        self.present(alert, animated: true)
     }
 }
 
@@ -244,4 +262,4 @@ private extension DotsViewController {
         ])
     }
 }
-       
+

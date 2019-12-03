@@ -10,14 +10,24 @@
 import Foundation
 
 struct GlobalSetting {
-    static var debugMode = true
     
+    // Debug
+    static var debugMode = false // used in BoosterVC
+    
+    // Booster
     static var boosterIsActive = false
-    static var boosterAvailabelTimer = 5
+    static let boosterSetTime = 7
+    static var boosterTimerLeft = boosterSetTime
     
-    static var money = 0
+    // Profile
+    static var profileMoney = 0
     
+    // BoosterVC
     static let gold = 10
     static let silver = 5
+    
+    // DotsVC
+    static let needDotsScoreToWin = 24
+    static let givePointsForWin = 20
 }
 

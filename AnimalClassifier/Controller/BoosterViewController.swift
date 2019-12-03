@@ -33,7 +33,7 @@ class BoosterViewController: UIViewController {
         let button = UIButton(type: .system)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.backgroundColor = #colorLiteral(red: 0.8549019694, green: 0.250980407, blue: 0.4784313738, alpha: 1)
-        button.setTitle("Назад", for: .normal)
+        button.setTitle("Продолжить", for: .normal)
         button.tintColor = .white
         button.layer.cornerRadius = 15
         button.addTarget(self, action: #selector(GetRewardButtonTapped), for: .touchUpInside)
@@ -80,7 +80,7 @@ class BoosterViewController: UIViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textAlignment = .right
-        label.text = "\(GlobalSetting.money)"
+        label.text = "\(GlobalSetting.profileMoney)"
         label.font = UIFont.boldSystemFont(ofSize: 30)
         label.textColor = .white
         
@@ -149,8 +149,8 @@ private extension BoosterViewController {
         var cardSideImage: UIImage?
         
         foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
-        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
-        moneyLabel.text = "\(GlobalSetting.money)"
+        GlobalSetting.profileMoney = buttonCardID == randomNumber ? GlobalSetting.profileMoney + GlobalSetting.gold : GlobalSetting.profileMoney + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.profileMoney)"
         
         cardSideImage = leftCardIsOpen ? foregroundCardImage : backsideImage
         leftBoosterButton.setImage(cardSideImage, for: .normal)
@@ -172,8 +172,8 @@ private extension BoosterViewController {
         var cardSideImage: UIImage?
         
         foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
-        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
-        moneyLabel.text = "\(GlobalSetting.money)"
+        GlobalSetting.profileMoney = buttonCardID == randomNumber ? GlobalSetting.profileMoney + GlobalSetting.gold : GlobalSetting.profileMoney + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.profileMoney)"
         
         cardSideImage = centerCardIsOpen ? foregroundCardImage : backsideImage
         centerBoosterButton.setImage(cardSideImage, for: .normal)
@@ -195,8 +195,8 @@ private extension BoosterViewController {
         var cardSideImage: UIImage?
         
         foregroundCardImage = buttonCardID == randomNumber ? goldImage : silverImage
-        GlobalSetting.money = buttonCardID == randomNumber ? GlobalSetting.money + GlobalSetting.gold : GlobalSetting.money + GlobalSetting.silver
-        moneyLabel.text = "\(GlobalSetting.money)"
+        GlobalSetting.profileMoney = buttonCardID == randomNumber ? GlobalSetting.profileMoney + GlobalSetting.gold : GlobalSetting.profileMoney + GlobalSetting.silver
+        moneyLabel.text = "\(GlobalSetting.profileMoney)"
         
         cardSideImage = rightCardIsOpen ? foregroundCardImage : backsideImage
         rightBoosterButton.setImage(cardSideImage, for: .normal)
@@ -215,7 +215,7 @@ private extension BoosterViewController {
     func GetRewardButtonTapped() {
         
         GlobalSetting.boosterIsActive = false
-        GlobalSetting.boosterAvailabelTimer = 5
+        GlobalSetting.boosterTimerLeft = GlobalSetting.boosterSetTime
         
         let vc = ViewController()
         vc.modalPresentationStyle = .overFullScreen
@@ -279,18 +279,3 @@ private extension BoosterViewController {
         ])
     }
 }
-
-//extension UIViewController {
-//    func makeAnimatedGradient() -> AnimatedGradientView {
-//        let view = AnimatedGradientView()
-//        view.translatesAutoresizingMaskIntoConstraints = false
-//        view.animationDuration = 4
-//        view.direction = .up
-//        view.animationValues = [(colors: ["#4e26b5", "#d50f30"], .up, .axial),
-//                                (colors: ["#833ab4", "#1bd817"], .right, .axial),
-//                                (colors: ["#4e26b5", "#d50f30"], .down, .axial),
-//                                (colors: ["#0f3d9b", "#1bd817"], .left, .axial)]
-//        
-//        return view
-//    }
-//}
