@@ -19,9 +19,9 @@ Swift 5, iOS 13.2.2, Xcode 11.2.1
 
 <b>Видео:</b>
 
-Демонстрация приложения [здесь](https://drive.google.com/open?id=1tsh5BUGdZzvtbi9azAnngXT1WOWsNPKY
+Демонстрация приложения [здесь](https://drive.google.com/open?id=1tsh5BUGdZzvtbi9azAnngXT1WOWsNPKY)
 
-Об авторе через дополненную реальность [здесь](https://drive.google.com/open?id=1JZOWQjfM_nrNNFDqUbcsHxNcG39XNNi3)
+Об авторе через AR [здесь](https://drive.google.com/open?id=1JZOWQjfM_nrNNFDqUbcsHxNcG39XNNi3)
 
 <b>Скриншоты:</b>
 
